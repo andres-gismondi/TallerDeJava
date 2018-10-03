@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "java.IniciarSesion",urlPatterns = {"/Login"})
@@ -30,8 +28,8 @@ public class IniciarSesion extends HttpServlet {
 
         List<User> users = (List<User>) request.getServletContext().getAttribute("users");
 
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
+        /*response.setContentType("text/html");
+        PrintWriter out = response.getWriter();*/
 
         User camila = new User();
         camila.setName("camila");
@@ -40,12 +38,11 @@ public class IniciarSesion extends HttpServlet {
         users.add(camila);
         request.getServletContext().setAttribute("users",users);
 
-        List<User> vv = (ArrayList<User>)request.getServletContext().getAttribute("users");
-
         HttpSession s = request.getSession();
         camila.setId(s.getId());
-        s.setAttribute("usuarios",vv);
+        s.setAttribute("usuarios",request.getServletContext().getAttribute("users"));
         s.setAttribute("camila",camila);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("Show.jsp");
         dispatcher.forward(request,response);
     }

@@ -7,7 +7,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="form-group">
+    <div class="container">
         <form action="/Login" method="post">
             <div class="form-group">
                 <label for="usr">Name:</label>
@@ -17,8 +17,8 @@
                 <label for="pwd">Password:</label>
                 <input type="password" class="form-control" id="pwd" name="password">
             </div>
-            <div>
-                <input type="submit" value="Submit">
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Submit">
             </div>
         </form>
     </div>

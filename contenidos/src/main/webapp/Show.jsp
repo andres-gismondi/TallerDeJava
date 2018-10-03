@@ -2,7 +2,6 @@
 <%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% List<User> users = (List<User>) session.getAttribute("usuarios"); %>
-<% User camila = (User)session.getAttribute("camila"); %>
 <html>
 <head>
     <%@ page isELIgnored="false" %>
@@ -24,5 +23,9 @@
             </div>
         </div>
     </div>
+    <%  System.out.println(session.getId());
+        session.invalidate();
+        System.out.println(session.getId());
+       //response.sendRedirect("Login.jsp");%>
 </body>
 </html>
