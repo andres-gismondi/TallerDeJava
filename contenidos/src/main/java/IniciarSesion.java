@@ -43,8 +43,9 @@ public class IniciarSesion extends HttpServlet {
         s.setAttribute("usuarios",request.getServletContext().getAttribute("users"));
         s.setAttribute("camila",camila);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("Show.jsp");
-        dispatcher.forward(request,response);
+        /*RequestDispatcher dispatcher = request.getRequestDispatcher("Show.jsp");
+        dispatcher.forward(request,response);*/
+        response.sendRedirect("Show.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

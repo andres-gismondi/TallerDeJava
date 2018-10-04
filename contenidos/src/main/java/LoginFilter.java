@@ -1,42 +1,52 @@
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@WebFilter(filterName = "LoginFilter", urlPatterns = {"/Login"})
+@WebFilter(filterName = "LoginFilter",
+            urlPatterns = {"/Login"})
 public class LoginFilter implements Filter {
 
-    private ServletContext context;
+    final static Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);
+    private FilterConfig context = null;
+
+    public void init(FilterConfig config) throws ServletException {
+        this.context = config;
+        this.context.getServletContext().log("Login Filter started...");
+    }
+
 
     public void destroy() {
+        this.context.getServletContext().log("Login Filter destroyed...");
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
         HttpSession session = request.getSession(false);
         String url = request.getRequestURI();
-        System.out.println(url);
-        if(session == null){
-            System.out.println("Sin autenticacion");
-            this.context.log("Sin autenticacion");
+        context.getServletContext().log("ASDASDSAD");
+        String name = request.getParameter("name");
+        if(!name.equals("andres")){
+            this.context.getServletContext().log("Sin Autenticacion");
+            response.sendRedirect("Login.jsp");
+
         }else{
-            System.out.println("Con autenticacion");
-            this.context.log("Con autenticacion");
+            context.getServletContext().log("Asdasd");
             chain.doFilter(req, resp);
         }
 
-
-
+        this.context.getServletContext().log("Login Filter comming back...");
     }
 
-    public void init(FilterConfig config) throws ServletException {
-        this.context = config.getServletContext();
-        this.context.log("App inicializada");
-    }
+
 
 }
