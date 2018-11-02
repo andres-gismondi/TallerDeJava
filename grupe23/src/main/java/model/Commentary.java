@@ -19,10 +19,20 @@ public class Commentary {
     private Date date;
     @Column(name="ENABLED")
     private Boolean enabled;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="USER_CREATOR")
     private User creator;
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name="PUBLICATION_ID")
+    private Publication publication;
 
+    public Publication getPublication() {
+        return publication;
+    }
+
+    public void setPublication(Publication publication) {
+        this.publication = publication;
+    }
 
     public int getId() {
         return id;
