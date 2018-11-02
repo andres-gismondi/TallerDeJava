@@ -66,7 +66,8 @@ public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
         try {
             tx = em.getTransaction();
             tx.begin();
-            em.remove(entity);
+            em.remove(em.contains(entity) ? entity : em.merge(entity));
+            //em.remove(entity);
             tx.commit();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) tx.rollback();
