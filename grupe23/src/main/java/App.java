@@ -4,6 +4,7 @@ import dao.UserDAO;
 import dao.UserDAOHibernateJPA;
 import model.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,20 +30,20 @@ public class App {
         Commentary comentario = new Commentary();
         comentario.setBody("primer comentario");
         comentario.setCreator(p);
-        comentario.setDate("2018-10-10");
+        //comentario.setDate("2018-10-10");
         comentario.setTitle("Coment");
         //crear segundo comentario
         Commentary comentario2 = new Commentary();
         comentario2.setBody("primer comentario");
         comentario2.setCreator(p);
-        comentario2.setDate("2018-10-10");
+       // comentario2.setDate(new Date());
         comentario2.setTitle("Coment");
 
         //crear publicacion
         Publication publicacion = new Publication();
         publicacion.setBody("el body de una publicacion");
         publicacion.setCreator(p);
-        publicacion.setDate("2018-11-02");
+        //publicacion.setDate(new Date());
         publicacion.setEnableComments(true);
         List<Commentary> comentarios = new ArrayList<>();
         comentarios.add(comentario);
@@ -51,7 +52,8 @@ public class App {
 
 
         //Publicacion DAO
-        PublicationDAO publicationDAO = DaoFactory.getPublicationDAO();
+        PublicationDAO publicationDao = DaoFactory.getPublicationDAO();
+        publicationDao.persistir(publicacion);
 
         //se le pide a daoFactory un usuarioDAO
         UserDAO user = DaoFactory.getUserDAO();
@@ -68,7 +70,7 @@ public class App {
         }
 
         //se borra un usuario. este no anda, hay que consultar.
-       user.borrar(10);
+       //user.borrar(10);
 
         //actualizando usuario
         User actualizar = user.recuperar(1);

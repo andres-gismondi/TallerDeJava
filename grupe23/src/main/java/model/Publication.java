@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +21,12 @@ public class Publication {
     @Column(name="BODY")
     private String body;
     @Column(name="DATE")
-    private Date date;
+    private Timestamp date;
     @Column(name="COMMENTS_ENABLE")
     private Boolean enableComments;
+
+
+
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -69,13 +73,6 @@ public class Publication {
         this.body = body;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public List<Commentary> getCommentaries() {
         return commentaries;
@@ -84,5 +81,11 @@ public class Publication {
     public void setCommentaries(List<Commentary> commentaries) {
         this.commentaries = commentaries;
     }
+    public Timestamp getDate() {
+        return date;
+    }
 
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
 }

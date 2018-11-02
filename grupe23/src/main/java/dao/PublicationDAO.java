@@ -1,4 +1,6 @@
 package dao;
 
-public interface PublicationDAO {
+import model.Publication;
+
+public interface PublicationDAO extends GenericDAO<Publication> {
 }
