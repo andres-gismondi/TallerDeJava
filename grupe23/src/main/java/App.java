@@ -1,4 +1,5 @@
 import dao.DaoFactory;
+import dao.PublicationDAO;
 import dao.UserDAO;
 import dao.UserDAOHibernateJPA;
 import model.*;
@@ -13,6 +14,8 @@ public class App {
         c.setName("Teacher");
         c.setWritePermisson(true);
 
+
+
         //se crea a un usuario
         User p = new Admin();
         p.setFirstName("Andy");
@@ -20,6 +23,27 @@ public class App {
         p.setEmail("bruceLee@gmail.com");
         p.setType("User");
         p.addCategory(c);
+
+        //crear cartelera
+        Commentary comentario = new Commentary();
+        comentario.setBody("primer comentario");
+        comentario.setCreator(p);
+        comentario.setDate("2018-10-10");
+        comentario.setTitle("Coment");
+
+        //crear publicacion
+        Publication publicacion = new Publication();
+        publicacion.setBody("el body de una publicacion");
+        publicacion.setCreator(p);
+        publicacion.setDate("2018-11-02");
+        publicacion.setEnableComments(true);
+        List<Commentary> comentarios = new List();
+        comentarios.add(comentario);
+        publicacion.setCommentaries(comentarios);
+
+
+        //Publicacion DAO
+        PublicationDAO publicationDAO = DaoFactory.getPublicationDAO();
 
         //se le pide a daoFactory un usuarioDAO
         UserDAO user = DaoFactory.getUserDAO();
@@ -37,6 +61,11 @@ public class App {
 
         //se borra un usuario. este no anda, hay que consultar.
        user.borrar(10);
+
+        //actualizando usuario
+        User actualizar = user.recuperar(1);
+        actualizar.setEmail("pepito@pepas.com");
+        user.actualizar(actualizar);
 
     }
 }
