@@ -1,5 +1,7 @@
 package model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,11 +26,14 @@ public class Publication {
     private Timestamp date;
     @Column(name="COMMENTS_ENABLE")
     private Boolean enableComments;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.ALL}, fetch=FetchType.EAGER, orphanRemoval=true)
     private List<Commentary> commentaries = new ArrayList<>();
 
     public void addComentary(Commentary commentary){
         this.getCommentaries().add(commentary);
+    }
+    public void removeComentary(Commentary commentary){
+        this.getCommentaries().remove(commentary);
     }
 
     public int getId() {

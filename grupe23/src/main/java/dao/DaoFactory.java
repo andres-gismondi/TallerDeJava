@@ -18,4 +18,8 @@ public class DaoFactory {
 
         return new CategoryDAOHibernateJPA();
     }
+    public static BillboardDAO getBillboardDAO() {
+
+        return new BillboardDAOHibernateJPA();
+    }
 }
