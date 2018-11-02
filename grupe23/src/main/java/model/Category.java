@@ -16,16 +16,14 @@ public class Category {
     private String name;
     @Column(name="WRITE_PERMISSON")
     private Boolean writePermisson;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "USER_HAS_CATEGORY",
             joinColumns = @JoinColumn(name = "CATEGORY_ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID")
     )
     private List<User> users = new ArrayList<>();
 
-    @ManyToMany(cascade = {
-            CascadeType.ALL
-    })
+    @ManyToMany
     @JoinTable(name = "BILLBOARD_HAS_CATEGORY",
             joinColumns = @JoinColumn(name = "CATEGORY_ID"),
             inverseJoinColumns = @JoinColumn(name = "BILLBOARD_ID")

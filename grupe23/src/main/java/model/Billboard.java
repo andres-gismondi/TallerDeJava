@@ -11,10 +11,7 @@ public class Billboard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
     private long id;
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany
     private List<Publication> publications;
 
     @ManyToMany

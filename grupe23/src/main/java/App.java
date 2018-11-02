@@ -1,7 +1,4 @@
-import dao.DaoFactory;
-import dao.PublicationDAO;
-import dao.UserDAO;
-import dao.UserDAOHibernateJPA;
+import dao.*;
 import model.*;
 
 import java.sql.Timestamp;
@@ -15,6 +12,15 @@ public class App {
         Category c = new Category();
         c.setName("Teacher");
         c.setWritePermisson(true);
+        //se crea categoria
+        Category cc = new Category();
+        cc.setName("Teacher");
+        cc.setWritePermisson(true);
+
+        CategoryDAO categoryDAO = DaoFactory.getCategoryDAO();
+        categoryDAO.persistir(c);
+        categoryDAO.persistir(cc);
+
 
         //se crea a un usuario
         User p = new Admin();
@@ -23,14 +29,12 @@ public class App {
         p.setEmail("bruceLee@gmail.com");
         p.setType("User");
         p.addCategory(c);
+        p.addCategory(cc);
 
-        //crear publicacion
-        Publication publicacion = new Publication();
-        publicacion.setBody("el body de una publicacion");
-        publicacion.setCreator(p);
-        publicacion.setDate(new Timestamp(System.currentTimeMillis()));
-        publicacion.setEnableComments(true);
-        List<Commentary> comentarios = new ArrayList<>();
+        //se le pide a daoFactory un usuarioDAO
+        UserDAO user = DaoFactory.getUserDAO();
+        user.persistir(p);
+
 
         //crear comentario
         Commentary comentario = new Commentary();
@@ -38,46 +42,39 @@ public class App {
         comentario.setCreator(p);
         comentario.setDate(new Timestamp(System.currentTimeMillis()));
         comentario.setTitle("Coment");
-        comentario.setPublication(publicacion);
         //crear segundo comentario
         Commentary comentario2 = new Commentary();
         comentario2.setBody("primer comentario");
         comentario2.setCreator(p);
         comentario2.setDate(new Timestamp(System.currentTimeMillis()));
         comentario2.setTitle("Coment");
-        comentario2.setPublication(publicacion);
 
+        CommentaryDAO commentaryDAO = DaoFactory.getCommentaryDao();
+        commentaryDAO.persistir(comentario);
+        commentaryDAO.persistir(comentario2);
 
-        comentarios.add(comentario);
-        comentarios.add(comentario2);
-        publicacion.setCommentaries(comentarios);
-
+        //crear publicacion
+        Publication publicacion = new Publication();
+        publicacion.setBody("el body de una publicacion");
+        publicacion.setCreator(p);
+        publicacion.setDate(new Timestamp(System.currentTimeMillis()));
+        publicacion.setEnableComments(true);
+        publicacion.addComentary(comentario);
+        publicacion.addComentary(comentario2);
 
         //Publicacion DAO
         PublicationDAO publicationDAO = DaoFactory.getPublicationDAO();
         publicationDAO.persistir(publicacion);
 
-        //se le pide a daoFactory un usuarioDAO
-        UserDAO user = DaoFactory.getUserDAO();
 
-        //se agrega un usuario a la bd
-        user.persistir(p);
-
-        //se listan los usuarios
-        List<User> users = user.listar();
-        //User users = user.getUser("bruce");
-        for (User user1 : users) {
-            System.out.println(user1.getFirstName());
-
-        }
 
         //se borra un usuario. este no anda, hay que consultar.
-       user.borrar(10);
+      /* user.borrar(10);
 
         //actualizando usuario
         User actualizar = user.recuperar(1);
         actualizar.setEmail("pepito@pepas.com");
-        user.actualizar(actualizar);
+        user.actualizar(actualizar);*/
 
     }
 }

@@ -1,4 +1,6 @@
 package dao;
 
-public interface CommentaryDAO {
+import model.Commentary;
+
+public interface CommentaryDAO extends GenericDAO<Commentary> {
 }

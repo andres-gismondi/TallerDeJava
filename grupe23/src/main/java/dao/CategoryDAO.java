@@ -1,4 +1,6 @@
 package dao;
 
-public interface CategoryDAO {
+import model.Category;
+
+public interface CategoryDAO extends GenericDAO<Category>{
 }

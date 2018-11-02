@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +14,7 @@ public class Publication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
     private int id;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="USER_CREATOR")
+    @ManyToOne
     private User creator;
     @Column(name="TITLE")
     private String title;
@@ -24,14 +24,12 @@ public class Publication {
     private Timestamp date;
     @Column(name="COMMENTS_ENABLE")
     private Boolean enableComments;
+    @OneToMany
+    private List<Commentary> commentaries = new ArrayList<>();
 
-
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Commentary> commentaries;
+    public void addComentary(Commentary commentary){
+        this.getCommentaries().add(commentary);
+    }
 
     public int getId() {
         return id;
