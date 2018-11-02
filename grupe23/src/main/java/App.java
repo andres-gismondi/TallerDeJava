@@ -24,12 +24,18 @@ public class App {
         p.setType("User");
         p.addCategory(c);
 
-        //crear cartelera
+        //crear comentario
         Commentary comentario = new Commentary();
         comentario.setBody("primer comentario");
         comentario.setCreator(p);
         comentario.setDate("2018-10-10");
         comentario.setTitle("Coment");
+        //crear segundo comentario
+        Commentary comentario2 = new Commentary();
+        comentario2.setBody("primer comentario");
+        comentario2.setCreator(p);
+        comentario2.setDate("2018-10-10");
+        comentario2.setTitle("Coment");
 
         //crear publicacion
         Publication publicacion = new Publication();
@@ -39,6 +45,7 @@ public class App {
         publicacion.setEnableComments(true);
         List<Commentary> comentarios = new List();
         comentarios.add(comentario);
+        comentarios.add(comentario2);
         publicacion.setCommentaries(comentarios);
 
 
