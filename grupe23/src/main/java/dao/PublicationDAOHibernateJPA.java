@@ -1,4 +1,9 @@
 package dao;
 
-public class PublicationDAOHibernateJPA {
+import model.Publication;
+
+public class PublicationDAOHibernateJPA extends GenericDAOHibernateJPA<Publication> implements PublicationDAO {
+    public PublicationDAOHibernateJPA(){
+        super(Publication.class);
+    }
 }

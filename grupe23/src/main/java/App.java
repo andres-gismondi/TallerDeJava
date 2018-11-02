@@ -4,6 +4,7 @@ import dao.UserDAO;
 import dao.UserDAOHibernateJPA;
 import model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class App {
@@ -43,7 +44,7 @@ public class App {
         publicacion.setCreator(p);
         publicacion.setDate("2018-11-02");
         publicacion.setEnableComments(true);
-        List<Commentary> comentarios = new List();
+        List<Commentary> comentarios = new ArrayList<>();
         comentarios.add(comentario);
         comentarios.add(comentario2);
         publicacion.setCommentaries(comentarios);

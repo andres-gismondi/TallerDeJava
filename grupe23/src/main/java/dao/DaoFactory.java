@@ -7,6 +7,6 @@ public class DaoFactory {
     }
     public static PublicationDAO getPublicationDAO() {
 
-        return new PublisherDAOHibernateJPA();
+        return new PublicationDAOHibernateJPA();
     }
 }
