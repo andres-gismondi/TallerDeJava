@@ -1,4 +1,4 @@
 package dao;
 
-public class BillboardDAO {
+public interface BillboardDAO {
 }

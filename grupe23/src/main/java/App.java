@@ -3,9 +3,6 @@ import dao.UserDAO;
 import dao.UserDAOHibernateJPA;
 import model.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.List;
 
 public class App {
