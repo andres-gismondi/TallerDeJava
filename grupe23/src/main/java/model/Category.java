@@ -16,9 +16,7 @@ public class Category {
     private String name;
     @Column(name="WRITE_PERMISSON")
     private Boolean writePermisson;
-    @ManyToMany(cascade = {
-            CascadeType.ALL
-    })
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "USER_HAS_CATEGORY",
             joinColumns = @JoinColumn(name = "CATEGORY_ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID")

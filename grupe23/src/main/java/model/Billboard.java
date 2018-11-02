@@ -16,7 +16,12 @@ public class Billboard {
             orphanRemoval = true
     )
     private List<Publication> publications;
-    @ManyToMany(mappedBy = "billboards")
+
+    @ManyToMany
+    @JoinTable(name="BILLBOARD_HAS_CATEGORY",
+            joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
+            inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))
+
     private List<Category> categories;
     @Column(name="TITLE")
     private String title;

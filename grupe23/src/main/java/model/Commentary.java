@@ -23,6 +23,7 @@ public class Commentary {
     @JoinColumn(name="USER_CREATOR")
     private User creator;
 
+
     public int getId() {
         return id;
     }

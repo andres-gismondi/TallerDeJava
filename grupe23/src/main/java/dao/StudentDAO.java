@@ -1,10 +1,12 @@
 package dao;
 
 
-public class StudentDAO extends UserDAO{
+import model.Student;
 
+public interface StudentDAO extends GenericDAO<Student>{
+    /*
     public void suscribeBillboard(BillboardDAO billboard){}
 
     public void orderBillboard(BillboardDAO billboard){}
-
+*/
 }

@@ -21,7 +21,10 @@ public class User implements Serializable {
     private String lastName;
     @Column(name="TYPE")
     private String type;
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="USER_HAS_CATEGORY",
+            joinColumns=@JoinColumn(name="user_id", referencedColumnName="ID"),
+            inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))
     private List<Category> categories = new ArrayList<>();
 
     public void addCategory(Category category){

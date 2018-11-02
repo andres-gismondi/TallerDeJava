@@ -1,8 +1,11 @@
 package dao;
 
 
-public class AdminDAO extends UserDAO{
+import model.Admin;
 
+public interface AdminDAO extends GenericDAO<Admin>{
+
+    /*
     public void addBillboard(){}
 
     public void addUser(){}
@@ -34,5 +37,5 @@ public class AdminDAO extends UserDAO{
     public void addCategory(CategoryDAO category){}
 
     public void orderBillboard(BillboardDAO billboard){}
-
+    */
 }
