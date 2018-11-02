@@ -39,7 +39,7 @@ public class App {
         }
 
         //se borra un usuario. este no anda, hay que consultar.
-        user.borrar(6);
+       // user.borrar(6);
 
     }
 }

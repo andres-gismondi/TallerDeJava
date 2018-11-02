@@ -1,4 +1,4 @@
 package dao;
 
-public class CommentaryDAO {
+public interface CommentaryDAO {
 }

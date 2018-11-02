@@ -1,4 +1,4 @@
 package dao;
 
-public class CommunicationDAO {
+public interface CommunicationDAO {
 }
