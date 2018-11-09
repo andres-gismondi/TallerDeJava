@@ -12,6 +12,7 @@ public class Billboard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
     private long id;
+<<<<<<< HEAD
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "billboard",
@@ -23,6 +24,16 @@ public class Billboard {
     @ManyToMany(
             mappedBy = "billboards"
     )
+=======
+    @OneToMany
+    private List<Publication> publications = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name="BILLBOARD_HAS_CATEGORY",
+            joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
+            inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))
+
+>>>>>>> 4df1f815278b389751c097b8baa1ae9d57d3e859
     private List<Category> categories = new ArrayList<>();
     @Column(name="TITLE")
     private String title;
@@ -30,6 +41,19 @@ public class Billboard {
     private String description;
     @Column(name="DATE")
     private Date date;
+
+    public void addPublication(Publication publication){
+        this.getPublications().add(publication);
+    }
+    public void removePublication(Publication publication){
+        this.getPublications().remove(publication);
+    }
+    public void addCategories(Category category){
+        this.getCategories().add(category);
+    }
+    public void removeCategories(Category category){
+        this.getCategories().remove(category);
+    }
 
     public long getId() {
         return id;

@@ -31,6 +31,9 @@ public class User implements Serializable {
     public void addCategory(Category category){
         this.getCategories().add(category);
     }
+    public void removeCategory(Category category){
+        this.getCategories().remove(category);
+    }
 
     public User() {
     }

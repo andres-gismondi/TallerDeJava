@@ -9,7 +9,7 @@ public class App {
     public static void main(String[] args) {
 
         //se crea categoria
-        Category c = new Category();
+        /*Category c = new Category();
         c.setName("Teacher");
         c.setWritePermisson(true);
         //se crea categoria
@@ -66,8 +66,19 @@ public class App {
         PublicationDAO publicationDAO = DaoFactory.getPublicationDAO();
         publicationDAO.persistir(publicacion);
 
+        //Crear cartelera
+        Billboard b = new Billboard();
+        b.setDate(new Timestamp(System.currentTimeMillis()));
+        b.setDescription("BCartelera");
+        b.setTitle("Cartelera");
+        b.addCategories(c);
+        b.addCategories(cc);
+        b.addPublication(publicacion);
 
+        BillboardDAO billboard = DaoFactory.getBillboardDAO();
+        billboard.persistir(b);*/
 
+<<<<<<< HEAD
 
         //se crea a un usuario
         User us = new Admin();
@@ -85,6 +96,16 @@ public class App {
         User actualizar = user.recuperar(1);
         actualizar.setEmail("pepito@pepas.com");
         user.actualizar(actualizar);*/
+=======
+        //ELIMINAR
+        Commentary commentary = DaoFactory.getCommentaryDao().recuperar(1);
+        Publication pp = DaoFactory.getPublicationDAO().recuperar(1);
+        pp.removeComentary(commentary);
+
+        DaoFactory.getPublicationDAO().actualizar(pp);
+        DaoFactory.getCommentaryDao().borrar(commentary);
+
+>>>>>>> 4df1f815278b389751c097b8baa1ae9d57d3e859
 
     }
 }
