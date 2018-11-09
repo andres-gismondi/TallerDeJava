@@ -1,4 +1,6 @@
 package dao;
 
-public interface BillboardDAO {
+import model.Billboard;
+
+public interface BillboardDAO extends GenericDAO<Billboard>{
 }

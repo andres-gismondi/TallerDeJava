@@ -98,7 +98,10 @@ public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
     }
 
     public boolean existe(Serializable id){
-        return true;
+        Query consulta = EMF.getEMF().createEntityManager().createQuery("select e  from " + getPersistentClass().getSimpleName()+ " e where e.id=:id");
+        consulta.setParameter("id", id);
+        return (consulta.getResultList().size() == 1);
+
     }
 
     public T recuperar(Serializable id){

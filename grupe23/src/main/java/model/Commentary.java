@@ -20,6 +20,8 @@ public class Commentary {
     @Column(name="ENABLED")
     private Boolean enabled;
     @ManyToOne
+    private Publication publication;
+    @ManyToOne
     private User creator;
 
     public int getId() {
@@ -70,4 +72,11 @@ public class Commentary {
         this.enabled = enabled;
     }
 
+    public Publication getPublication() {
+        return publication;
+    }
+
+    public void setPublication(Publication publication) {
+        this.publication = publication;
+    }
 }

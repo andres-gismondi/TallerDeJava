@@ -24,8 +24,20 @@ public class Publication {
     private Timestamp date;
     @Column(name="COMMENTS_ENABLE")
     private Boolean enableComments;
-    @OneToMany
+    @ManyToOne
+    private Billboard billboard;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "publication",
+            orphanRemoval = true
+    )
+
     private List<Commentary> commentaries = new ArrayList<>();
+
+
+    public Publication() {
+    }
 
     public void addComentary(Commentary commentary){
         this.getCommentaries().add(commentary);
@@ -85,5 +97,13 @@ public class Publication {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public Billboard getBillboard() {
+        return billboard;
+    }
+
+    public void setBillboard(Billboard billboard) {
+        this.billboard = billboard;
     }
 }

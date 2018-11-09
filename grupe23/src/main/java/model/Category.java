@@ -16,7 +16,7 @@ public class Category {
     private String name;
     @Column(name="WRITE_PERMISSON")
     private Boolean writePermisson;
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "USER_HAS_CATEGORY",
             joinColumns = @JoinColumn(name = "CATEGORY_ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID")
@@ -25,12 +25,27 @@ public class Category {
 
     @ManyToMany
     @JoinTable(name = "BILLBOARD_HAS_CATEGORY",
+
             joinColumns = @JoinColumn(name = "CATEGORY_ID"),
             inverseJoinColumns = @JoinColumn(name = "BILLBOARD_ID")
     )
     private List<Billboard> billboards = new ArrayList<>();
 
     public Category() {
+    }
+
+    public void addBillboard(Billboard billboard){
+
+        this.billboards.add(billboard);
+    }
+
+
+    public List<Billboard> getBillboards() {
+        return billboards;
+    }
+
+    public void setBillboards(List<Billboard> billboards) {
+        this.billboards = billboards;
     }
 
     public List<User> getUsers() {

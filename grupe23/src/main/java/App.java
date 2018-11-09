@@ -68,9 +68,19 @@ public class App {
 
 
 
-        //se borra un usuario. este no anda, hay que consultar.
-      /* user.borrar(10);
 
+        //se crea a un usuario
+        User us = new Admin();
+        us.setFirstName("oeoe");
+        us.setLastName("argento");
+        us.setEmail("bruceLee@gmail.com");
+        us.setType("User");
+        us.addCategory(c);
+        user.persistir(us);
+
+        //se borra un usuario. este no anda, hay que consultar.
+        user.borrar(9);
+/*
         //actualizando usuario
         User actualizar = user.recuperar(1);
         actualizar.setEmail("pepito@pepas.com");

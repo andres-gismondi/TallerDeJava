@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,15 +12,18 @@ public class Billboard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
     private long id;
-    @OneToMany
-    private List<Publication> publications;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "billboard",
+            orphanRemoval = true
+    )
+    private List<Publication> publications = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name="BILLBOARD_HAS_CATEGORY",
-            joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
-            inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))
 
-    private List<Category> categories;
+    @ManyToMany(
+            mappedBy = "billboards"
+    )
+    private List<Category> categories = new ArrayList<>();
     @Column(name="TITLE")
     private String title;
     @Column(name="DESCRIPTION")
@@ -73,5 +77,17 @@ public class Billboard {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public void addCategory(Category category){
+
+        this.categories.add(category);
+        category.getBillboards().add(this);
+
+    }
+
+    public void addPublication(Publication publication){
+        this.publications.add(publication);
+        publication.setBillboard(this);
     }
 }
