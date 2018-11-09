@@ -26,7 +26,7 @@ public class Publication {
     private Timestamp date;
     @Column(name="COMMENTS_ENABLE")
     private Boolean enableComments;
-<<<<<<< HEAD
+
     @ManyToOne
     private Billboard billboard;
 
@@ -35,10 +35,6 @@ public class Publication {
             mappedBy = "publication",
             orphanRemoval = true
     )
-
-=======
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.ALL}, fetch=FetchType.EAGER, orphanRemoval=true)
->>>>>>> 4df1f815278b389751c097b8baa1ae9d57d3e859
     private List<Commentary> commentaries = new ArrayList<>();
 
 

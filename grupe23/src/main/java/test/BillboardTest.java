@@ -58,7 +58,7 @@ public class BillboardTest {
         cartelera.addPublication(publicacion);
         cartelera.setTitle("JTTPS");
 
-        BillboardDAO billboardDAO = DaoFactory.getBillboardDao();
+        BillboardDAO billboardDAO = DaoFactory.getBillboardDAO();
         billboardDAO.persistir(cartelera);
     }
 }
