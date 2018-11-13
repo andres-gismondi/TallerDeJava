@@ -3,4 +3,5 @@ package dao;
 import model.Publication;
 
 public interface PublicationDAO extends GenericDAO<Publication> {
+    public Publication getByName(String body);
 }

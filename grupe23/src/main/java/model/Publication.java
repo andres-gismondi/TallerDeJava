@@ -111,4 +111,8 @@ public class Publication {
     public void setBillboard(Billboard billboard) {
         this.billboard = billboard;
     }
+
+    public void removeAllCommentaries(){
+        this.commentaries = new ArrayList<>();
+    }
 }

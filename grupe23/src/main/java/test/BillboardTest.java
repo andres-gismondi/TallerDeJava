@@ -13,7 +13,7 @@ public class BillboardTest {
     public void createBillboardWithPublicationAndCommentaryAndCategory(){
         //creando categoria
         Category cc = new Category();
-        cc.setName("1er año");
+        cc.setName("Profesores");
         cc.setWritePermisson(true);
 
         //creando usuario
@@ -60,5 +60,22 @@ public class BillboardTest {
 
         BillboardDAO billboardDAO = DaoFactory.getBillboardDAO();
         billboardDAO.persistir(cartelera);
+    }
+
+    @Test
+    public void deleteBillboard(){
+
+
+        BillboardDAO billboardDAO = DaoFactory.getBillboardDAO();
+
+        Billboard cartelera = billboardDAO.getByName("Cartelera de primer año");
+        Publication publication = new Publication();
+        List<Publication> publications = cartelera.getPublications();
+        for (Publication pub : publications) {
+            if(pub.getBody().equals("el body de una publicacion")){
+                pub.removeAllCommentaries();
+            }
+        }
+        billboardDAO.borrar(cartelera);
     }
 }
