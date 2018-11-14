@@ -19,7 +19,7 @@ public class Commentary {
     private Date date;
     @Column(name="ENABLED")
     private Boolean enabled;
-    @ManyToOne( cascade = CascadeType.ALL)
+    @ManyToOne
     private Publication publication;
     @ManyToOne
     private User creator;

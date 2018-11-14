@@ -43,6 +43,7 @@ public class Publication {
 
     public void addComentary(Commentary commentary){
         this.getCommentaries().add(commentary);
+        commentary.setPublication(this);
     }
     public void removeComentary(Commentary commentary){
         this.getCommentaries().remove(commentary);
