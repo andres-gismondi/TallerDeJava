@@ -17,11 +17,9 @@ public class UserTest {
     @Test
     public void createAndDeleteUserWithCategory(){
         //creando categoria
-        Category c = new Category();
-        c.setName("Teacher");
-        c.setWritePermisson(true);
-        CategoryDAO categoryDAO = DaoFactory.getCategoryDAO();
-        categoryDAO.persistir(c);
+        Category cc = new Category();
+        cc.setName("Hola");
+        cc.setWritePermisson(true);
 
         //creando un usuario
         User p = new Admin();
@@ -29,7 +27,7 @@ public class UserTest {
         p.setLastName("Kato");
         p.setEmail("bruceLee@gmail.com");
         p.setType("User");
-        p.addCategory(c);
+        p.addCategory(cc);
 
         //se le pide a daoFactory un usuarioDAO
         UserDAO user = DaoFactory.getUserDAO();
@@ -51,7 +49,8 @@ public class UserTest {
         assertEquals(false, (user.existe(assertUser.getId())));
 
         //borro la categoria creada
-        categoryDAO.borrar(c);
+        CategoryDAO categoryDAO = DaoFactory.getCategoryDAO();
+        categoryDAO.borrar(cc);
 
     }
 }
