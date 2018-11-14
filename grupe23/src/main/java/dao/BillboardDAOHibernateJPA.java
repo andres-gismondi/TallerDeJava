@@ -9,10 +9,8 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
         super(Billboard.class);
     }
 
-    public Billboard getByName(String description){
-        Query consulta = EMF.getEMF().createEntityManager().createQuery("select c  from " + getPersistentClass().getSimpleName()+ " c where c.description=:description");
-        consulta.setParameter("description", description);
+    public Billboard getByName(Billboard billboard){
+        return this.listar().stream().filter(b -> b.getId()==billboard.getId()).findFirst().orElse(null);
 
-        return (Billboard) consulta.setMaxResults(1).getResultList().get(0);
     }
 }

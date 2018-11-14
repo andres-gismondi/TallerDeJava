@@ -116,4 +116,14 @@ public class Publication {
     public void removeAllCommentaries(){
         this.commentaries = new ArrayList<>();
     }
+
+    public Commentary getCommentary(long id){
+        Commentary com = new Commentary();
+        for (Commentary c: this.getCommentaries()) {
+            if(c.getId() == id){
+                com = c;
+            }
+        }
+        return com;
+    }
 }

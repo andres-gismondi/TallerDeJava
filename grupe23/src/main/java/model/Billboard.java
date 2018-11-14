@@ -99,4 +99,8 @@ public class Billboard {
         this.publications.add(publication);
         publication.setBillboard(this);
     }
+
+    public Publication getPublication(Publication publication){
+        return this.getPublications().stream().filter(p -> p.getId()==publication.getId()).findFirst().orElse(null);
+    }
 }

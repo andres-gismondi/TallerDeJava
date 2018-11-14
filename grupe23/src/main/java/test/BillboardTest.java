@@ -8,9 +8,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class BillboardTest {
     @Test
-    public void createBillboardWithPublicationAndCommentaryAndCategory(){
+    public void createYActualizarBillboardWithPublicationAndCommentaryAndCategory(){
         //creando categoria
         Category cc = new Category();
         cc.setName("Profesores");
@@ -60,6 +62,16 @@ public class BillboardTest {
 
         BillboardDAO billboardDAO = DaoFactory.getBillboardDAO();
         billboardDAO.persistir(cartelera);
+        //testeo que la cartelera se creo en la base de datos.
+        assertEquals (true, billboardDAO.getByName("Cartelera de primer año").getDescription().equals("Cartelera de primer año"));
+
+        //pido la cartelera de la bd
+        Billboard carteleraActualizar = billboardDAO.getByName("Cartelera de primer año");
+        Commentary comentarioActualizar = carteleraActualizar.getPublication(1).getCommentary(1);
+        comentarioActualizar.setBody("comentario actualizadooo");
+        //persisto la cartelera actualizada
+        billboardDAO.actualizar(carteleraActualizar);
+        assertEquals(true, billboardDAO.getByName("Cartelera de primer año").getPublication(1).getCommentary(1).getBody().equals("comentario actualizadooo"));
     }
 
     @Test
@@ -77,5 +89,8 @@ public class BillboardTest {
             }
         }
         billboardDAO.borrar(cartelera);
+
+        assertEquals(null, billboardDAO.getByName("Cartelera de primer año"));
     }
+
 }
