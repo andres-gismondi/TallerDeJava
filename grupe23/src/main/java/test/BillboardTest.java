@@ -5,7 +5,6 @@ import model.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,7 +54,7 @@ public class BillboardTest {
         Billboard cartelera = new Billboard();
         //Category ca = new Category();
         CategoryDAO catDao = DaoFactory.getCategoryDAO();
-        cartelera.addCategory(catDao.getByName("Profesores"));
+        cartelera.addCategory(cc);
         cartelera.setDescription("Cartelera de primer año");
         cartelera.addPublication(publicacion);
         cartelera.setTitle("JTTPS");
@@ -63,15 +62,20 @@ public class BillboardTest {
         BillboardDAO billboardDAO = DaoFactory.getBillboardDAO();
         billboardDAO.persistir(cartelera);
         //testeo que la cartelera se creo en la base de datos.
-        assertEquals (true, billboardDAO.getByName("Cartelera de primer año").getDescription().equals("Cartelera de primer año"));
+
+        Billboard billboard =billboardDAO.recuperar((long)1);
+
+        assertEquals (true, billboardDAO.getBillboard(billboardDAO.recuperar((long)1)).getDescription().equals("Cartelera de primer año"));
+
+        PublicationDAO publicationDAO = DaoFactory.getPublicationDAO();
 
         //pido la cartelera de la bd
-        Billboard carteleraActualizar = billboardDAO.getByName("Cartelera de primer año");
-        Commentary comentarioActualizar = carteleraActualizar.getPublication(1).getCommentary(1);
+        Billboard carteleraActualizar = billboardDAO.getBillboard(billboardDAO.recuperar((long)1));
+        Commentary comentarioActualizar = carteleraActualizar.getPublication(publicationDAO.recuperar((long)1)).getCommentary((long)1);
         comentarioActualizar.setBody("comentario actualizadooo");
         //persisto la cartelera actualizada
         billboardDAO.actualizar(carteleraActualizar);
-        assertEquals(true, billboardDAO.getByName("Cartelera de primer año").getPublication(1).getCommentary(1).getBody().equals("comentario actualizadooo"));
+        assertEquals(true, billboardDAO.getBillboard(billboardDAO.recuperar((long)1)).getPublication(publicationDAO.recuperar((long)1)).getCommentary(1).getBody().equals("comentario actualizadooo"));
     }
 
     @Test
@@ -80,7 +84,7 @@ public class BillboardTest {
 
         BillboardDAO billboardDAO = DaoFactory.getBillboardDAO();
 
-        Billboard cartelera = billboardDAO.getByName("Cartelera de primer año");
+        Billboard cartelera = billboardDAO.getBillboard(billboardDAO.recuperar((long)1));
         Publication publication = new Publication();
         List<Publication> publications = cartelera.getPublications();
         for (Publication pub : publications) {
@@ -90,7 +94,7 @@ public class BillboardTest {
         }
         billboardDAO.borrar(cartelera);
 
-        assertEquals(null, billboardDAO.getByName("Cartelera de primer año"));
+        assertEquals(null, billboardDAO.getBillboard(billboardDAO.recuperar((long)1)));
     }
 
 }

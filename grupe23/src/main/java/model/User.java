@@ -12,7 +12,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="ID")
-    private Integer id;
+    private long id;
     @Column(name="EMAIL")
     private String email;
     @Column(name="FIRSTNAME")
@@ -70,11 +70,11 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -8,9 +8,11 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
         super(User.class);
     }
 
+    @Override
+    public User getUser(User user) {
+        return this.listar().stream().filter(b -> b.getId()==user.getId()).findFirst().orElse(null);
+    }
 
-    /** esté método es a modo de ejemplo, se agregaría para cosas
-     * particulares de la entidad Persona
-     **/
+
 
 }

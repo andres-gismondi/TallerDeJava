@@ -9,10 +9,8 @@ public class CategoryDAOHibernateJPA extends GenericDAOHibernateJPA<Category> im
         super(Category.class);
     }
 
-    public Category getByName(String name){
-        Query consulta = EMF.getEMF().createEntityManager().createQuery("select c  from " + getPersistentClass().getSimpleName()+ " c where c.name=:name");
-        consulta.setParameter("name", name);
-
-        return (Category) consulta.setMaxResults(1).getResultList().get(0);
+    public Category getCategory(Category category){
+        return this.listar().stream().filter(b -> b.getId()==category.getId()).findFirst().orElse(null);
     }
+
 }

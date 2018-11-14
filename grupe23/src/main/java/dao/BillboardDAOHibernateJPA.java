@@ -9,7 +9,7 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
         super(Billboard.class);
     }
 
-    public Billboard getByName(Billboard billboard){
+    public Billboard getBillboard(Billboard billboard){
         return this.listar().stream().filter(b -> b.getId()==billboard.getId()).findFirst().orElse(null);
 
     }

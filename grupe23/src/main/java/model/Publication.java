@@ -15,7 +15,7 @@ public class Publication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
-    private int id;
+    private long id;
     @ManyToOne
     private User creator;
     @Column(name="TITLE")
@@ -49,11 +49,11 @@ public class Publication {
         this.getCommentaries().remove(commentary);
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

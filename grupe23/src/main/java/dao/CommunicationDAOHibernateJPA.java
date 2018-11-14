@@ -6,4 +6,10 @@ public class CommunicationDAOHibernateJPA extends GenericDAOHibernateJPA<Communi
     public CommunicationDAOHibernateJPA(){
         super(Communication.class);
     }
+
+    @Override
+    public Communication getCommunication(Communication communication) {
+
+        return this.listar().stream().filter(b -> b.getId()==communication.getId()).findFirst().orElse(null);
+    }
 }

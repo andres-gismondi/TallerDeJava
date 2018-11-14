@@ -8,10 +8,10 @@ public class PublicationDAOHibernateJPA extends GenericDAOHibernateJPA<Publicati
     public PublicationDAOHibernateJPA(){
         super(Publication.class);
     }
-    public Publication getByName(String body){
-        Query consulta = EMF.getEMF().createEntityManager().createQuery("select c  from " + getPersistentClass().getSimpleName()+ " c where c.body=:body");
-        consulta.setParameter("body", body);
 
-        return (Publication) consulta.setMaxResults(1).getResultList().get(0);
+
+    @Override
+    public Publication getPublication(Publication publication) {
+        return this.listar().stream().filter(b -> b.getId()==publication.getId()).findFirst().orElse(null);
     }
 }

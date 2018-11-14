@@ -8,9 +8,5 @@ import java.util.List;
 
 public interface UserDAO extends GenericDAO<User>{
 
-    /*
-    public void addComment(PublicationDAO publication){}
-
-    public void orderBillboard(BillboardDAO billboard){}
-*/
+    public User getUser(User user);
 }
