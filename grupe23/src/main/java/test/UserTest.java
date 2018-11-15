@@ -20,8 +20,7 @@ public class UserTest {
         Category c = new Category();
         c.setName("Teacher");
         c.setWritePermisson(true);
-        CategoryDAO categoryDAO = DaoFactory.getCategoryDAO();
-        categoryDAO.persistir(c);
+
 
         //creando un usuario
         User p = new Admin();
@@ -35,7 +34,7 @@ public class UserTest {
         UserDAO user = DaoFactory.getUserDAO();
         user.persistir(p);
 
-        List<User> users = EMF.getEMF().createEntityManager().createQuery("select u from User u").getResultList();
+       List<User> users = EMF.getEMF().createEntityManager().createQuery("select u from User u").getResultList();
         User assertUser = new User();
         for (User u : users) {
             if(u.getFirstName().equals(p.getFirstName()) && u.getEmail().equals(p.getEmail())){
@@ -51,6 +50,7 @@ public class UserTest {
         assertEquals(false, (user.existe(assertUser.getId())));
 
         //borro la categoria creada
+        CategoryDAO categoryDAO = DaoFactory.getCategoryDAO();
         categoryDAO.borrar(c);
 
     }
