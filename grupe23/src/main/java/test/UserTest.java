@@ -17,9 +17,10 @@ public class UserTest {
     @Test
     public void createAndDeleteUserWithCategory(){
         //creando categoria
-        Category cc = new Category();
-        cc.setName("Hola");
-        cc.setWritePermisson(true);
+        Category c = new Category();
+        c.setName("Teacher");
+        c.setWritePermisson(true);
+
 
         //creando un usuario
         User p = new Admin();
@@ -27,13 +28,13 @@ public class UserTest {
         p.setLastName("Kato");
         p.setEmail("bruceLee@gmail.com");
         p.setType("User");
-        p.addCategory(cc);
+        p.addCategory(c);
 
         //se le pide a daoFactory un usuarioDAO
         UserDAO user = DaoFactory.getUserDAO();
         user.persistir(p);
 
-        List<User> users = EMF.getEMF().createEntityManager().createQuery("select u from User u").getResultList();
+       List<User> users = EMF.getEMF().createEntityManager().createQuery("select u from User u").getResultList();
         User assertUser = new User();
         for (User u : users) {
             if(u.getFirstName().equals(p.getFirstName()) && u.getEmail().equals(p.getEmail())){
@@ -50,7 +51,9 @@ public class UserTest {
 
         //borro la categoria creada
         CategoryDAO categoryDAO = DaoFactory.getCategoryDAO();
-        categoryDAO.borrar(cc);
+
+        categoryDAO.borrar(c);
+
 
     }
 }
