@@ -51,7 +51,9 @@ public class UserTest {
 
         //borro la categoria creada
         CategoryDAO categoryDAO = DaoFactory.getCategoryDAO();
+
         categoryDAO.borrar(c);
+
 
     }
 }
