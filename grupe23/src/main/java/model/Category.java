@@ -23,7 +23,7 @@ public class Category {
     )
     private List<User> users = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "BILLBOARD_HAS_CATEGORY",
 
             joinColumns = @JoinColumn(name = "CATEGORY_ID"),

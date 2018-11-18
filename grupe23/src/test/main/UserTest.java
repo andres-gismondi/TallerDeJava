@@ -1,5 +1,8 @@
-package test;
+package main;
 
+import config.AppConfig;
+import config.PersistenceConfig;
+import config.SpringWebApp;
 import dao.CategoryDAO;
 import dao.DaoFactory;
 import dao.EMF;
@@ -7,13 +10,25 @@ import dao.UserDAO;
 import model.Admin;
 import model.Category;
 import model.User;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {AppConfig.class, PersistenceConfig.class, SpringWebApp.class} )
+@WebAppConfiguration
 public class UserTest {
+
+    @Autowired
+    UserDAO userDAO;
+
     @Test
     public void createAndDeleteUserWithCategory(){
         //creando categoria
@@ -30,8 +45,8 @@ public class UserTest {
         p.addCategory(cc);
 
         //se le pide a daoFactory un usuarioDAO
-        UserDAO user = DaoFactory.getUserDAO();
-        user.persistir(p);
+        //UserDAO userDAO = DaoFactory.getUserDAO();
+        userDAO.persistir(p);
 
         List<User> users = EMF.getEMF().createEntityManager().createQuery("select u from User u").getResultList();
         User assertUser = new User();
@@ -40,13 +55,15 @@ public class UserTest {
                 assertUser = u;
             }
         }
-        assertEquals("Andy",assertUser.getFirstName());
-        assertEquals("Kato",assertUser.getLastName());
-        assertEquals(assertUser.getCategories().size(),1);
+
+
+        Assert.assertEquals("Andy",assertUser.getFirstName());
+        Assert.assertEquals("Kato",assertUser.getLastName());
+        Assert.assertEquals(assertUser.getCategories().size(),1);
         //borro el usuario
-        user.borrar(assertUser.getId());
+        userDAO.borrar(assertUser.getId());
         //checkeo si se borro.
-        assertEquals(false, (user.existe(assertUser.getId())));
+        Assert.assertEquals(false, (userDAO.existe(assertUser.getId())));
 
         //borro la categoria creada
         CategoryDAO categoryDAO = DaoFactory.getCategoryDAO();

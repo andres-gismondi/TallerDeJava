@@ -12,10 +12,13 @@ public class Billboard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
     private long id;
+
+    @Jsonignore
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "billboard",
-            orphanRemoval = true
+            orphanRemoval = true/*,
+            fetch = FetchType.EAGER*/
     )
     private List<Publication> publications = new ArrayList<>();
 
