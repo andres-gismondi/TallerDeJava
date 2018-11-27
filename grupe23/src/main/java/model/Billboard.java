@@ -1,5 +1,7 @@
 package model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +15,6 @@ public class Billboard {
     @Column(name="ID")
     private long id;
 
-    @Jsonignore
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "billboard",
@@ -51,6 +52,7 @@ public class Billboard {
         this.id = id;
     }
 
+    @Transactional
     public List<Category> getCategories() {
         return categories;
     }
@@ -59,6 +61,7 @@ public class Billboard {
         this.categories = categories;
     }
 
+    @Transactional
     public List<Publication> getPublications() {
         return publications;
     }
@@ -102,7 +105,7 @@ public class Billboard {
         this.publications.add(publication);
         publication.setBillboard(this);
     }
-
+    @Transactional
     public Publication getPublication(Publication publication){
         return this.getPublications().stream().filter(p -> p.getId()==publication.getId()).findFirst().orElse(null);
     }
