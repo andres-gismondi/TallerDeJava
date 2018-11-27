@@ -85,16 +85,10 @@ public class BillboardTest {
         BillboardDAO billboardDAO = DaoFactory.getBillboardDAO();
 
         Billboard cartelera = billboardDAO.getBillboard(billboardDAO.recuperar((long)1));
-        Publication publication = new Publication();
-        List<Publication> publications = cartelera.getPublications();
-        for (Publication pub : publications) {
-            if(pub.getBody().equals("el body de una publicacion")){
-                pub.removeAllCommentaries();
-            }
-        }
+
         billboardDAO.borrar(cartelera);
 
-        assertEquals(null, billboardDAO.getBillboard(billboardDAO.recuperar((long)1)));
+        assertEquals(false, billboardDAO.existe((long)1));
     }
 
 }
