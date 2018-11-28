@@ -1,17 +1,21 @@
 package dao;
 
 import model.User;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
+@Repository
+@Transactional
 public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
     protected Class<T> persistentClass;
-    private EntityManager entityManager =  EMF.getEMF().createEntityManager();
-
+    private EntityManager entityManager;
 
     public GenericDAOHibernateJPA(Class<T> persistentClass) {
         this.persistentClass = persistentClass;
@@ -25,6 +29,11 @@ public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
         this.persistentClass = persistentClass;
     }
 
+    @PersistenceContext
+    public void setEntityManager(EntityManager em){
+        this.entityManager = em;
+    }
+
     public EntityManager getEntityManager() {
         return entityManager;
     }
@@ -33,52 +42,38 @@ public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
 
     @Override
     public T persistir(T entity) {
-        EntityManager em = EMF.getEMF().createEntityManager();
-        EntityTransaction tx = null;
-        try {
-            tx = em.getTransaction();
-            tx.begin();
-            em.persist(entity);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null && tx.isActive()) tx.rollback();
-            throw e; // escribir en un log o mostrar un mensaje
-        } finally {
-            em.close();
-        }
+        this.getEntityManager().persist(entity);
         return entity;
     }
 
     public T actualizar(T entity) {
-        EntityManager em = EMF.getEMF().createEntityManager();
-        EntityTransaction etx = em.getTransaction();
+        EntityTransaction etx = this.getEntityManager().getTransaction();
         etx.begin();
-        T newEntity = em.merge(entity);
+        T newEntity = this.getEntityManager().merge(entity);
         etx.commit();
-        em.close();
+        this.getEntityManager().close();
         return newEntity;
     }
 
     @Override
     public void borrar(T entity) {
-        EntityManager em = EMF.getEMF().createEntityManager();
         EntityTransaction tx = null;
         try {
-            tx = em.getTransaction();
+            tx = this.getEntityManager().getTransaction();
             tx.begin();
-            em.remove(em.contains(entity) ? entity : em.merge(entity));
+            this.getEntityManager().remove(this.getEntityManager().contains(entity) ? entity : this.getEntityManager().merge(entity));
             //em.remove(entity);
             tx.commit();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) tx.rollback();
             throw e; // escribir en un log o mostrar un mensaje
         } finally {
-            em.close();
+            this.getEntityManager().close();
         }
     }
 
     public T borrar(Serializable id) {
-        T entity = EMF.getEMF().createEntityManager().find(this.getPersistentClass(), id);
+        T entity = this.getEntityManager().find(this.getPersistentClass(), id);
         if (entity != null) {
             this.borrar(entity);
         }
@@ -86,26 +81,26 @@ public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
     }
 
     public List<T> recuperarTodos(String columnOrder) {
-        Query consulta = EMF.getEMF().createEntityManager().createQuery("select e  from " + getPersistentClass().getSimpleName()+" e order by e." + columnOrder);
+        Query consulta = this.getEntityManager().createQuery("select e  from " + getPersistentClass().getSimpleName()+" e order by e." + columnOrder);
         List<T> resultado = (List<T>) consulta.getResultList();
         return resultado;
     }
 
     public List<T> listar() {
-        Query consulta = EMF.getEMF().createEntityManager().createQuery("select e from " + getPersistentClass().getSimpleName() + " e");
+        Query consulta = this.getEntityManager().createQuery("select e from " + getPersistentClass().getSimpleName() + " e");
         List<T> resultado = (List<T>) consulta.getResultList();
         return resultado;
     }
 
     public boolean existe(Serializable id){
-        Query consulta = EMF.getEMF().createEntityManager().createQuery("select e  from " + getPersistentClass().getSimpleName()+ " e where e.id=:id");
+        Query consulta = this.getEntityManager().createQuery("select e  from " + getPersistentClass().getSimpleName()+ " e where e.id=:id");
         consulta.setParameter("id", id);
         return (consulta.getResultList().size() == 1);
 
     }
 
     public T recuperar(Serializable id){
-        T entity = EMF.getEMF().createEntityManager().find(this.getPersistentClass(), id);
+        T entity = this.getEntityManager().find(this.getPersistentClass(), id);
         return entity;
     }
 }
