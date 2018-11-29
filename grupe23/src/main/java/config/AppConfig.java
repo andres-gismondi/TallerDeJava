@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 
-@ComponentScan(basePackages = {"config", "dao", "model"})
+@ComponentScan(basePackages = {"config", "dao", "model","controller", "service"})
 public class AppConfig implements WebMvcConfigurer {
 
 	@Override
@@ -23,19 +23,4 @@ public class AppConfig implements WebMvcConfigurer {
 		converters.add(new MappingJackson2HttpMessageConverter());
 	}
 
-	private MappingJackson2HttpMessageConverter jacksonMessageConverter() {
-
-		MappingJackson2HttpMessageConverter messageConverter = new    MappingJackson2HttpMessageConverter();
-		ObjectMapper mapper = new ObjectMapper();
-		// Registering Hibernate5Module to support lazy objects
-		mapper.registerModule(new Hibernate5Module());
-		messageConverter.setObjectMapper(mapper);
-		return messageConverter;
-	}
-
-	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		// Here we add our custom-configured HttpMessageConverter
-		converters.add(jacksonMessageConverter());
-	}
 }

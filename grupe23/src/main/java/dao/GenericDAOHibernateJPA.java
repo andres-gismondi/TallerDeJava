@@ -1,6 +1,7 @@
 package dao;
 
 import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;

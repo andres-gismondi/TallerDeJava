@@ -106,20 +106,20 @@ public class BillboardTest {
     @Test
     public void deleteBillboard(){
 
+        //creando cartelera
+        Billboard cartelera1 = new Billboard();
+        cartelera1.setDescription("Cartelera de primer año");
+        cartelera1.setTitle("JTTPS");
 
         //BillboardDAO billboardDAO = DaoFactory.getBillboardDAO();
+        billboardDAO.persistir(cartelera1);
 
-        /*Billboard cartelera = billboardDAO.getBillboard(billboardDAO.recuperar((long)1));
-        Publication publication = new Publication();
-        List<Publication> publications = cartelera.getPublications();
-        for (Publication pub : publications) {
-            if(pub.getBody().equals("el body de una publicacion")){
-                pub.removeAllCommentaries();
-            }
+        boolean existe = billboardDAO.existe((long)1);
+        if(existe){
+            Billboard cartelera = billboardDAO.recuperar((long)1);
+            billboardDAO.borrar(cartelera);
         }
-        billboardDAO.borrar(cartelera);
-
-        Assert.assertEquals(null, billboardDAO.getBillboard(billboardDAO.recuperar((long)1)));*/
+        Assert.assertEquals(false, billboardDAO.existe((long)1));
     }
 
 }
