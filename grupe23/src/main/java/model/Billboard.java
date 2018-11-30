@@ -97,7 +97,6 @@ public class Billboard {
     public void addCategory(Category category){
 
         this.categories.add(category);
-        category.getBillboards().add(this);
 
     }
 
