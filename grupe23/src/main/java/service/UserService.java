@@ -27,7 +27,7 @@ public class UserService {
     }
 
     public List<User> listAllUsers() {
-        return userDAO.listar();
+        return userDAO.listarUsuarios();
     }
 
     public Boolean createUser(User user){

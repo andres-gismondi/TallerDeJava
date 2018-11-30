@@ -1,5 +1,7 @@
 package model;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,11 +39,12 @@ public class User implements Serializable {
 
     public User() {
     }
-
+    @Transactional
     public List<Category> getCategories() {
         return categories;
     }
 
+    @Transactional
     public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
