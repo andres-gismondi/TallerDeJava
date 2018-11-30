@@ -114,20 +114,12 @@ public class BillboardTest {
         //BillboardDAO billboardDAO = DaoFactory.getBillboardDAO();
         billboardDAO.persistir(cartelera1);
 
-<<<<<<< HEAD:grupe23/src/main/java/test/BillboardTest.java
-        Billboard cartelera = billboardDAO.getBillboard(billboardDAO.recuperar((long)1));
-
-        billboardDAO.borrar(cartelera);
-
-        assertEquals(false, billboardDAO.existe((long)1));
-=======
         boolean existe = billboardDAO.existe((long)1);
         if(existe){
             Billboard cartelera = billboardDAO.recuperar((long)1);
             billboardDAO.borrar(cartelera);
         }
         Assert.assertEquals(false, billboardDAO.existe((long)1));
->>>>>>> d93cd77bd724978889acfb2b0567cced41690817:grupe23/src/test/java/main/BillboardTest.java
     }
 
 }

@@ -32,10 +32,6 @@ public class GenericDAOHibernateJPA<T> implements GenericDAO<T> {
         this.persistentClass = persistentClass;
     }
 
-    @PersistenceContext
-    public void setEntityManager(EntityManager em){
-        this.entityManager = em;
-    }
 
     public EntityManager getEntityManager() {
         return entityManager;
