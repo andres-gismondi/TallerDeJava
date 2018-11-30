@@ -22,7 +22,7 @@ public class User implements Serializable {
     @Column(name="TYPE")
     private String type;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name="USER_HAS_CATEGORY",
             joinColumns=@JoinColumn(name="user_id", referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))
