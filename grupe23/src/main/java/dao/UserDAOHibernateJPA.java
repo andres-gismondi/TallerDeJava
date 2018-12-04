@@ -24,7 +24,7 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
     }
 
     public List<User> listarUsuarios() {
-       
+
         List<User> usuarios = super.listar();
 
         for (User u:usuarios) {
