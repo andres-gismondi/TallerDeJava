@@ -41,7 +41,8 @@ public class UserTest {
         p.setFirstName("Andy");
         p.setLastName("Kato");
         p.setEmail("bruceLee@gmail.com");
-        p.setType("User");
+        p.setType("admin");
+        p.setPassword("brucelee123");
         p.addCategory(cc);
 
         //se le pide a daoFactory un usuarioDAO

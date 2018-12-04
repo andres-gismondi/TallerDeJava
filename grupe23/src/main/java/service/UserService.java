@@ -31,32 +31,48 @@ public class UserService {
     }
 
     public Boolean createUser(User user){
+
+        User newUser = new User();
+        newUser.setPassword(user.getPassword());
+        newUser.setEmail(user.getEmail());
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setType(user.getType());
+
         //creando categoria
-        Category cc = new Category();
-        cc.setName(user.getCategories().get(0).getName());
-        cc.setWritePermisson(user.getCategories().get(0).getWritePermisson());
+        for (int i =0; i<user.getCategories().size();i++) {
+            Category cr = categoryDAO.getCategory(user.getCategories().get(i).getName());
+            if (categoryDAO.getCategory(user.getCategories().get(i).getName()) != null) {
+                if(!userDAO.userHasCategory(user.getEmail(),user.getCategories().get(i).getName())){
+                    newUser.addCategory(user.getCategories().get(i));
+                }
+            } else {
+                //if(!userDAO.userHasCategory(user.getId(),user.getCategories().get(i).getName())){         }
+                //Category category =this.createCategory(user.getCategories().get(i));
+                newUser.addCategory(this.createCategory(user.getCategories().get(i)));
+            }
 
-        //creando un usuario
-        User p = new Admin();
-        p.setFirstName("Andy");
-        p.setLastName("Kato");
-        p.setEmail("bruceLee@gmail.com");
-        p.setType("User");
-        p.addCategory(cc);
 
-        userDAO.persistir(p);
+        }
+
+        if(userDAO.getUserByEmail(newUser.getEmail())!=null){
+            userDAO.actualizar(newUser);
+        }else{
+            userDAO.persistir(newUser);
+
+        }
 
         return true;
     }
 
-    public Boolean createCategory(Category category){
+    private Category createCategory(Category category){
         Category cc = new Category();
         cc.setName(category.getName());
         cc.setWritePermisson(category.getWritePermisson());
 
         categoryDAO.persistir(cc);
 
-        return true;
+        return cc;
     }
 
     public Boolean createCommunication(Communication communication){
@@ -68,5 +84,18 @@ public class UserService {
 
         return true;
 
+    }
+
+    public User getUserById(long id){
+        return userDAO.getUser(id);
+    }
+
+    public Boolean deleteUserById(long id){
+        User user = userDAO.deleteUser(id);
+        if(user!=null){
+            userDAO.borrar(user);
+            return true;
+        }
+        return false;
     }
 }

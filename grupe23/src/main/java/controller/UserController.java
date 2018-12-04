@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping(value="/user-controller")
 public class UserController {
 
 
@@ -46,11 +47,24 @@ public class UserController {
         //return new ResponseEntity<Boolean>(HttpStatus.OK);
     }
 
-    @RequestMapping(value="/createCategory",method = RequestMethod.POST)
-    public ResponseEntity<Boolean> createCategory(@RequestBody Category category){
-        Boolean bb = userService.createCategory(category);
-        return new ResponseEntity<Boolean>(bb,HttpStatus.OK);
+    @RequestMapping(value = "/users/{id}",method = RequestMethod.GET)
+    public ResponseEntity<User> getUser(@PathVariable("id") long id){
+        User user = userService.getUserById(id);
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/users/{id}",method = RequestMethod.DELETE)
+    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") long id){
+        Boolean result = userService.deleteUserById(id);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+    /*@RequestMapping(value = "/login",method = RequestMethod.POST)
+    public ResponseEntity<Boolean> userLogin(@PathVariable("name") String name){
+        Boolean result = userService.deleteUserById(id);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }*/
+
     //createCommunicarion
     @RequestMapping(value="/createCommunication",method = RequestMethod.POST)
     public ResponseEntity<Boolean> createCategory(@RequestBody Communication communication){

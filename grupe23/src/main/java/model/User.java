@@ -23,12 +23,14 @@ public class User implements Serializable {
     private String lastName;
     @Column(name="TYPE")
     private String type;
+    @Column(name="PASSWORD")
+    private String password;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name="USER_HAS_CATEGORY",
             joinColumns=@JoinColumn(name="user_id", referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))
-    private List<Category> categories = new ArrayList<>();
+    private List<Category> categories;
 
     public void addCategory(Category category){
         this.getCategories().add(category);
@@ -38,13 +40,13 @@ public class User implements Serializable {
     }
 
     public User() {
+        this.categories = new ArrayList<>();
     }
-    @Transactional
+
     public List<Category> getCategories() {
         return categories;
     }
 
-    @Transactional
     public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
@@ -87,5 +89,13 @@ public class User implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
