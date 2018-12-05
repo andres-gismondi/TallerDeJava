@@ -18,8 +18,6 @@ public class Category {
     private String name;
     @Column(name="WRITE_PERMISSON")
     private Boolean writePermisson;
-    @OneToMany(mappedBy = "categories")
-    private Set<User> users = new HashSet<>();
 
     public Category() {
     }
@@ -28,14 +26,6 @@ public class Category {
         this.id = id;
         this.name = name;
         this.writePermisson = writePermisson;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 
     public long getId() {
