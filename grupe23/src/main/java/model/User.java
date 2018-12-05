@@ -5,7 +5,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="USER_TABLE")
@@ -30,7 +32,7 @@ public class User implements Serializable {
     @JoinTable(name="USER_HAS_CATEGORY",
             joinColumns=@JoinColumn(name="user_id", referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))
-    private List<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
     public void addCategory(Category category){
         this.getCategories().add(category);
@@ -39,15 +41,14 @@ public class User implements Serializable {
         this.getCategories().remove(category);
     }
 
-    public User() {
-        this.categories = new ArrayList<>();
+    public User(){
     }
 
-    public List<Category> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
 

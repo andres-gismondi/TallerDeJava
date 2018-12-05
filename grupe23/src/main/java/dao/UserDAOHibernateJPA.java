@@ -41,6 +41,7 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
          return this.listar().stream().filter(b -> b.getId()==id).findFirst().orElse(null);
     }
 
+    @Transactional
     public User getUserByEmail(String email){
         User userd = this.listar().stream().filter(b -> b.getEmail().equals(email)).findFirst().orElse(null);
         if(userd!=null){
@@ -48,6 +49,16 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
         }
 
         return userd;
+    }
+
+    @Transactional
+    public long getIdFromUser(String email){
+        User userd = this.listar().stream().filter(b -> b.getEmail().equals(email)).findFirst().orElse(null);
+        if(userd!=null){
+            Hibernate.initialize(userd.getCategories());
+        }
+
+        return userd.getId();
     }
 
     public Boolean userHasCategory(String email, String name){

@@ -2,7 +2,9 @@ package model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="CATEGORY")
@@ -16,6 +18,8 @@ public class Category {
     private String name;
     @Column(name="WRITE_PERMISSON")
     private Boolean writePermisson;
+    @OneToMany(mappedBy = "categories")
+    private Set<User> users = new HashSet<>();
 
     public Category() {
     }
@@ -26,6 +30,13 @@ public class Category {
         this.writePermisson = writePermisson;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     public long getId() {
         return id;
