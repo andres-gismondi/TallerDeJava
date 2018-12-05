@@ -3,8 +3,10 @@ package service;
 import dao.*;
 import model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,43 +62,15 @@ public class UserService {
         return newUser;
     }
 
-
-    private String nameCategory(List<Category> categories, Category c){
-        Category cat = categories.stream().filter(cc -> cc.getName().equals(c.getName())).findFirst().orElse(null);
-        if(cat!=null){
-            return cat.getName();
+    public HttpHeaders loginUser(String userName, String password, HttpHeaders response){
+        String token;
+        User user = userDAO.getUserByEmail(userName);
+        if(user!=null){
+            if(user.getPassword().equals(password)){
+                response.set("token","1234");
+            }
         }
-        return null;
-    }
-
-
-    private Category useCategory(List<Category> categories, Category c){
-        return categories.stream().filter(cc -> !cc.getName().equals(c.getName())).findFirst().orElse(null);
-    }
-
-    private Category useCategory(Set<Category> categories, Category c){
-        return categories.stream().filter(cc -> !cc.getName().equals(c.getName())).findFirst().orElse(null);
-    }
-
-    public Category createCategory(Category category){
-        Category cc = new Category();
-        cc.setName(category.getName());
-        cc.setWritePermisson(category.getWritePermisson());
-
-        categoryDAO.persistir(cc);
-
-        return cc;
-    }
-
-    public Boolean createCommunication(Communication communication){
-        Communication communication1 = new Communication();
-        communication1.setContact(communication.getContact());
-        communication1.setType(communication.getType());
-
-        communicationDAO.persistir(communication1);
-
-        return true;
-
+        return response;
     }
 
     public User getUserById(long id){
