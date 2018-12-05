@@ -20,6 +20,12 @@ public class Category {
     public Category() {
     }
 
+    public Category(long id, String name, Boolean writePermisson) {
+        this.id = id;
+        this.name = name;
+        this.writePermisson = writePermisson;
+    }
+
 
     public long getId() {
         return id;

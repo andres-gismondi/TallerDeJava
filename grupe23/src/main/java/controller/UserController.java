@@ -4,6 +4,7 @@ package controller;
 import dao.CommunicationDAO;
 import dao.DaoFactory;
 import dao.UserDAO;
+import model.CategoriesUser;
 import model.Category;
 import model.Communication;
 import model.User;
@@ -57,6 +58,13 @@ public class UserController {
     public ResponseEntity<Boolean> deleteUser(@PathVariable("id") long id){
         Boolean result = userService.deleteUserById(id);
         return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/set-categories",method = RequestMethod.POST)
+    public ResponseEntity<Boolean> createUser(@RequestBody CategoriesUser categoriesUser){
+        Boolean bb = userService.setCategories(categoriesUser.getCategories(),categoriesUser.getUser());
+        return new ResponseEntity<Boolean>(bb,HttpStatus.OK);
+        //return new ResponseEntity<Boolean>(HttpStatus.OK);
     }
 
     /*@RequestMapping(value = "/login",method = RequestMethod.POST)

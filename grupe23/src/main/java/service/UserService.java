@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -39,30 +42,28 @@ public class UserService {
         newUser.setLastName(user.getLastName());
         newUser.setType(user.getType());
 
-        //creando categoria
-        for (int i =0; i<user.getCategories().size();i++) {
-            Category cr = categoryDAO.getCategory(user.getCategories().get(i).getName());
-            if (categoryDAO.getCategory(user.getCategories().get(i).getName()) != null) {
-                if(!userDAO.userHasCategory(user.getEmail(),user.getCategories().get(i).getName())){
-                    newUser.addCategory(user.getCategories().get(i));
-                }
-            } else {
-                //if(!userDAO.userHasCategory(user.getId(),user.getCategories().get(i).getName())){         }
-                //Category category =this.createCategory(user.getCategories().get(i));
-                newUser.addCategory(this.createCategory(user.getCategories().get(i)));
-            }
-
-
-        }
-
-        if(userDAO.getUserByEmail(newUser.getEmail())!=null){
-            userDAO.actualizar(newUser);
-        }else{
-            userDAO.persistir(newUser);
-
-        }
+        userDAO.persistir(newUser);
 
         return true;
+    }
+
+    public Boolean setCategories(List<Category> categories, User user){
+        //userDAO.getUser(user.getId()).getCategories().stream().forEach(c -> c.getName().equals(categories.stream().filter()));
+        User u = userDAO.getUserByEmail(user.getEmail());
+        List<Category> ccs = userDAO.getUserByEmail(user.getEmail()).getCategories().stream()
+                .filter(c -> c.getName().equals(this.nameCategory(categories,c)))
+                .map(c -> new Category(c.getId(),c.getName(),c.getWritePermisson()))
+                .collect(Collectors.toList());
+
+        return true;
+    }
+
+    private String nameCategory(List<Category> categories, Category c){
+        Category cat = categories.stream().filter(cc -> cc.getName().equals(c.getName())).findFirst().orElse(null);
+        if(cat!=null){
+            return cat.getName();
+        }
+        return null;
     }
 
     private Category createCategory(Category category){
