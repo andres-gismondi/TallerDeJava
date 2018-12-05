@@ -54,15 +54,23 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/{id}",method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(@PathVariable("id") long id){
-        User user = userService.getUserById(id);
-        return new ResponseEntity<>(user,HttpStatus.OK);
+    public ResponseEntity<User> getUser(@PathVariable("id") long id,@RequestHeader("token") String token){
+        if(token.equals("1234")){
+            User user = userService.getUserById(id,token);
+            if(user!=null){
+                return new ResponseEntity<>(user,HttpStatus.OK);
+            }
+            return new ResponseEntity<>(user,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
     @RequestMapping(value = "/users/{id}",method = RequestMethod.DELETE)
-    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") long id){
-        Boolean result = userService.deleteUserById(id);
-        return new ResponseEntity<>(result,HttpStatus.OK);
+    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") long id, @RequestHeader("token") String token){
+        if(userService.deleteUserById(id,token)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
     @RequestMapping(value="/set-categories",method = RequestMethod.POST)

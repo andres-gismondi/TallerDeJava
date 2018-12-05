@@ -63,7 +63,6 @@ public class UserService {
     }
 
     public HttpHeaders loginUser(String userName, String password, HttpHeaders response){
-        String token;
         User user = userDAO.getUserByEmail(userName);
         if(user!=null){
             if(user.getPassword().equals(password)){
@@ -73,15 +72,24 @@ public class UserService {
         return response;
     }
 
-    public User getUserById(long id){
-        return userDAO.getUser(id);
+    public User getUserById(long id,String token){
+        if(token.equals("1234")){
+            if(userDAO.getUser(id)!=null){
+                return userDAO.getUser(id);
+            }
+        }
+        return null;
+
     }
 
-    public Boolean deleteUserById(long id){
-        User user = userDAO.deleteUser(id);
-        if(user!=null){
-            userDAO.borrar(user);
-            return true;
+    public Boolean deleteUserById(long id,String token){
+        if(token.equals("1234")){
+            User user = userDAO.deleteUser(id);
+            if(user!=null){
+                userDAO.borrar(user);
+                return true;
+            }
+            return false;
         }
         return false;
     }
