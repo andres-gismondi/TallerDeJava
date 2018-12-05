@@ -61,23 +61,10 @@ public class UserController {
     }
 
     @RequestMapping(value="/set-categories",method = RequestMethod.POST)
-    public ResponseEntity<Boolean> setCategories(@RequestBody CategoriesUser categoriesUser){
-        Boolean bb = userService.setCategories(categoriesUser.getCategories(),categoriesUser.getUser());
-        return new ResponseEntity<Boolean>(bb,HttpStatus.OK);
-        //return new ResponseEntity<Boolean>(HttpStatus.OK);
+    public ResponseEntity<User> setCategories(@RequestBody CategoriesUser categoriesUser){
+        User user = userService.setCategories(categoriesUser.getCategories(),categoriesUser.getUser());
+        return new ResponseEntity<User>(user,HttpStatus.OK);
     }
 
-    /*@RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ResponseEntity<Boolean> userLogin(@PathVariable("name") String name){
-        Boolean result = userService.deleteUserById(id);
-        return new ResponseEntity<>(result,HttpStatus.OK);
-    }*/
-
-    //createCommunicarion
-    @RequestMapping(value="/createCategory",method = RequestMethod.POST)
-    public ResponseEntity<Category> createCategory(@RequestBody Category category){
-        Category bb = userService.createCategory(category);
-        return new ResponseEntity<Category>(bb,HttpStatus.OK);
-    }
 
 }

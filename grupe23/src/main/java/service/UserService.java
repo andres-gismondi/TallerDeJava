@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,48 +47,34 @@ public class UserService {
         return true;
     }
 
-    public Boolean setCategories(List<Category> categories, User user){
-
-        List<Category> ccs;
-        User u = userDAO.getUserByEmail(user.getEmail());
-        if(userDAO.getUserByEmail(user.getEmail()).getCategories().isEmpty()){
-            ccs = categories;
-        }else{
-            ccs = userDAO.getUserByEmail(user.getEmail()).getCategories().stream()
-                    .filter(c -> !c.getName().equals(this.nameCategory(categories,c)))
-                    .map(c -> new Category(this.useCategory(categories,c).getId(),this.useCategory(categories,c).getName(),this.useCategory(categories,c).getWritePermisson()))
-                    .collect(Collectors.toList());
-        }
+    public User setCategories(List<Category> categories, User user){
 
         User newUser = userDAO.getUser(userDAO.getIdFromUser(user.getEmail()));
-        if(newUser!=null){
-            for (Category cat: ccs) {
-                if(!userDAO.userHasCategory(newUser.getEmail(),cat.getName()) && categoryDAO.getCategory(cat.getName())==null){
-                    this.createCategory(cat);
-                    newUser.addCategory(cat);
-                }else if(!userDAO.userHasCategory(newUser.getEmail(),cat.getName()) && categoryDAO.getCategory(cat.getName())!=null){
-                    Category category = categoryDAO.getCategory(cat.getName());
-                    newUser.addCategory(category);
-                }
+        for (Category cat: categories) {
+            if(!userDAO.userHasCategory(newUser.getEmail(),cat.getName())){
+                Category category = categoryDAO.getCategory(cat.getName());
+                newUser.addCategory(category);
             }
-
-            userDAO.actualizar(newUser);
-            return true;
         }
-
-        return false;
-
+        userDAO.actualizar(newUser);
+        return newUser;
     }
 
+
     private String nameCategory(List<Category> categories, Category c){
-        Category cat = categories.stream().filter(cc -> !cc.getName().equals(c.getName())).findFirst().orElse(null);
+        Category cat = categories.stream().filter(cc -> cc.getName().equals(c.getName())).findFirst().orElse(null);
         if(cat!=null){
             return cat.getName();
         }
         return null;
     }
 
+
     private Category useCategory(List<Category> categories, Category c){
+        return categories.stream().filter(cc -> !cc.getName().equals(c.getName())).findFirst().orElse(null);
+    }
+
+    private Category useCategory(Set<Category> categories, Category c){
         return categories.stream().filter(cc -> !cc.getName().equals(c.getName())).findFirst().orElse(null);
     }
 
