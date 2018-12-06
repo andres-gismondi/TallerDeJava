@@ -50,7 +50,6 @@ public class UserController {
     public ResponseEntity<Boolean> createUser(@RequestBody User user){
         Boolean bb = userService.createUser(user);
         return new ResponseEntity<Boolean>(bb,HttpStatus.OK);
-        //return new ResponseEntity<Boolean>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users/{id}",method = RequestMethod.GET)

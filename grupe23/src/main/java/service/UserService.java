@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-
+    private final static String TOKEN = "1234";
 
     @Autowired
     UserDAO userDAO;
@@ -66,14 +66,14 @@ public class UserService {
         User user = userDAO.getUserByEmail(userName);
         if(user!=null){
             if(user.getPassword().equals(password)){
-                response.set("token","1234");
+                response.set("token",TOKEN);
             }
         }
         return response;
     }
 
     public User getUserById(long id,String token){
-        if(token.equals("1234")){
+        if(token.equals(TOKEN)){
             if(userDAO.getUser(id)!=null){
                 return userDAO.getUser(id);
             }
@@ -83,7 +83,7 @@ public class UserService {
     }
 
     public Boolean deleteUserById(long id,String token){
-        if(token.equals("1234")){
+        if(token.equals(TOKEN)){
             User user = userDAO.deleteUser(id);
             if(user!=null){
                 userDAO.borrar(user);
