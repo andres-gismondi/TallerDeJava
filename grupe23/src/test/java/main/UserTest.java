@@ -1,22 +1,18 @@
 package main;
 
-import config.AppConfig;
-import config.PersistenceConfig;
-import config.SpringWebApp;
-import dao.CategoryDAO;
-import dao.DaoFactory;
-import dao.EMF;
-import dao.UserDAO;
-import model.Admin;
-import model.Category;
-import model.User;
+import app.config.AppConfig;
+import app.config.PersistenceConfig;
+import app.config.SpringWebApp;
+import app.model.dao.UserDAO;
+import app.model.Admin;
+import app.model.Category;
+import app.model.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;

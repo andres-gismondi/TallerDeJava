@@ -1,11 +1,10 @@
 package main;
 
-import config.AppConfig;
-import config.PersistenceConfig;
-import config.SpringWebApp;
-import dao.*;
-import model.*;
-import org.junit.Assert;
+import app.config.AppConfig;
+import app.config.PersistenceConfig;
+import app.config.SpringWebApp;
+import app.model.dao.*;
+import app.model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {AppConfig.class, PersistenceConfig.class, SpringWebApp.class} )
