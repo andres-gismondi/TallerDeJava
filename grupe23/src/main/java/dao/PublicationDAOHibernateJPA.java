@@ -13,7 +13,7 @@ public class PublicationDAOHibernateJPA extends GenericDAOHibernateJPA<Publicati
 
 
     @Override
-    public Publication getPublication(Publication publication) {
-        return this.listar().stream().filter(b -> b.getId()==publication.getId()).findFirst().orElse(null);
+    public Publication getPublication(String title) {
+        return this.listar().stream().filter(b -> b.getTitle().equals(title)).findFirst().orElse(null);
     }
 }
