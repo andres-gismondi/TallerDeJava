@@ -13,9 +13,16 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
         super(Billboard.class);
     }
 
+    @Override
+    @Transactional
     public Billboard getBillboard(long id){
-        return this.listar().stream().filter(b -> b.getId()==id).findFirst().orElse(null);
+        Billboard billboard = this.listar().stream().filter(b -> b.getId()==id).findFirst().orElse(null);
+        if(billboard!=null){
+            Hibernate.initialize(billboard.getCategories());
+            Hibernate.initialize(billboard.getPublications());
+        }
 
+        return billboard;
     }
 
     @Transactional

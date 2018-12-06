@@ -15,14 +15,14 @@ public class Billboard {
     @Column(name="ID")
     private long id;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name="BILLBOARD_HAS_PUBLICATION",
             joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="publication_id", referencedColumnName="PUBLICATION_ID"))
     private List<Publication> publications = new ArrayList<>();
 
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name="BILLBOARD_HAS_CATEGORY",
             joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))
@@ -93,9 +93,7 @@ public class Billboard {
     }
 
     public void addCategory(Category category){
-
         this.categories.add(category);
-
     }
 
     public void addPublication(Publication publication){
