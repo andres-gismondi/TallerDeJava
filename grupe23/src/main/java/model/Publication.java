@@ -27,9 +27,6 @@ public class Publication {
     @Column(name="COMMENTS_ENABLE")
     private Boolean enableComments;
 
-    @ManyToOne
-    private Billboard billboard;
-
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "publication",
@@ -105,13 +102,6 @@ public class Publication {
         this.date = date;
     }
 
-    public Billboard getBillboard() {
-        return billboard;
-    }
-
-    public void setBillboard(Billboard billboard) {
-        this.billboard = billboard;
-    }
 
     public void removeAllCommentaries(){
         this.commentaries = new ArrayList<>();

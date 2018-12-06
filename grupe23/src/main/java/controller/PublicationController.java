@@ -20,7 +20,7 @@ public class PublicationController {
 
     @RequestMapping(value="/create",method = RequestMethod.POST)
     public ResponseEntity<Boolean> createPublication(@RequestBody PublicationBody publicationBody){
-        Boolean bb = publicationService.createPublication(publicationBody.getPublication(),publicationBody.getBillboard(),publicationBody.getUser());
+        Boolean bb = publicationService.createPublication(publicationBody.getPublication(),publicationBody.getUser());
         return new ResponseEntity<Boolean>(bb, HttpStatus.OK);
     }
 

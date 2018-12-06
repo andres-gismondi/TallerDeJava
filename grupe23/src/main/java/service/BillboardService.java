@@ -3,6 +3,7 @@ package service;
 import dao.BillboardDAO;
 import dao.CategoryDAO;
 import dao.PublicationDAO;
+import dao.UserDAO;
 import model.Billboard;
 import model.Category;
 import model.Publication;
@@ -24,11 +25,18 @@ public class BillboardService {
     @Autowired
     PublicationDAO publicationDAO;
 
-    public Boolean createBillboard(Billboard billboard){
+    @Autowired
+    UserDAO userDAO;
+
+    public Boolean createBillboard(Billboard billboard,User user){
         Billboard bill = new Billboard();
         bill.setTitle(billboard.getTitle());
         bill.setDescription(billboard.getDescription());
         bill.setDate(billboard.getDate());
+
+        User u = userDAO.getUserByEmail(user.getEmail());
+
+        bill.setCreator(u);
 
         billboardDAO.persistir(bill);
         return true;

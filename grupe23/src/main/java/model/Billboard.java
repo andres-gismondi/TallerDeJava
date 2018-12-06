@@ -34,6 +34,16 @@ public class Billboard {
     private String description;
     @Column(name="DATE")
     private Date date;
+    @ManyToOne
+    private User creator;
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
 
     public void removePublication(Publication publication){
         this.getPublications().remove(publication);
@@ -98,7 +108,6 @@ public class Billboard {
 
     public void addPublication(Publication publication){
         this.publications.add(publication);
-        publication.setBillboard(this);
     }
     @Transactional
     public Publication getPublication(Publication publication){

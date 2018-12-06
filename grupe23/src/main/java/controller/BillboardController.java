@@ -18,8 +18,8 @@ public class BillboardController {
     BillboardService billboardService;
 
     @RequestMapping(value="/create",method = RequestMethod.POST)
-    public ResponseEntity<Boolean> createBillboard(@RequestBody Billboard billboard){
-        Boolean bb = billboardService.createBillboard(billboard);
+    public ResponseEntity<Boolean> createBillboard(@RequestBody UserBillboards userBillboards){
+        Boolean bb = billboardService.createBillboard(userBillboards.getBillboard(),userBillboards.getUser());
         return new ResponseEntity<Boolean>(bb, HttpStatus.OK);
     }
 
