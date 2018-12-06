@@ -15,16 +15,14 @@ public class Billboard {
     @Column(name="ID")
     private long id;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            mappedBy = "billboard",
-            orphanRemoval = true/*,
-            fetch = FetchType.EAGER*/
-    )
+    @OneToMany
+    @JoinTable(name="BILLBOARD_HAS_PUBLICATION",
+            joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
+            inverseJoinColumns=@JoinColumn(name="publication_id", referencedColumnName="PUBLICATION_ID"))
     private List<Publication> publications = new ArrayList<>();
 
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(name="BILLBOARD_HAS_CATEGORY",
             joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))

@@ -14,7 +14,7 @@ public class Publication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name="PUBLICATION_ID")
     private long id;
     @ManyToOne
     private User creator;
