@@ -81,8 +81,11 @@ public class UserController {
     @RequestMapping(value="/login",method = RequestMethod.POST)
     public ResponseEntity<String> login(@RequestParam("userName") String userName, @RequestParam("password") String password){
         HttpHeaders response = new HttpHeaders();
-        HttpHeaders token = userService.loginUser(userName,password,response);
-        return ResponseEntity.ok().headers(token).body("ok");
+        HttpHeaders header = userService.loginUser(userName,password,response);
+        if(!header.get("token").isEmpty()){
+            return ResponseEntity.ok().headers(header).body("ok");
+        }
+        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
 
