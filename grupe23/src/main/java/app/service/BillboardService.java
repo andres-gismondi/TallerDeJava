@@ -30,20 +30,6 @@ public class BillboardService {
     @Autowired
     UserDAO userDAO;
 
-    public Boolean createBillboard(Billboard billboard,User user){
-        Billboard bill = new Billboard();
-        bill.setTitle(billboard.getTitle());
-        bill.setDescription(billboard.getDescription());
-        bill.setDate(billboard.getDate());
-
-        User u = userDAO.getUserByEmail(user.getEmail());
-
-        bill.setCreator(u);
-
-        billboardDAO.persistir(bill);
-        return true;
-    }
-
     public Billboard setCategories(List<Category> categories, Billboard billboard){
 
         Billboard newBillboard = billboardDAO.getBillboard(billboardDAO.getIdFromBillboard(billboard.getTitle()));

@@ -17,12 +17,6 @@ public class BillboardController {
     @Autowired
     BillboardService billboardService;
 
-    @RequestMapping(value="/create",method = RequestMethod.POST)
-    public ResponseEntity<Boolean> createBillboard(@RequestBody UserBillboards userBillboards){
-        Boolean bb = billboardService.createBillboard(userBillboards.getBillboard(),userBillboards.getUser());
-        return new ResponseEntity<Boolean>(bb, HttpStatus.OK);
-    }
-
     @RequestMapping(value="/set-categories",method = RequestMethod.POST)
     public ResponseEntity<Billboard> setCategories(@RequestBody CategoriesBillboard categoriesBillboard){
         Billboard billboard = billboardService.setCategories(categoriesBillboard.getCategories(),categoriesBillboard.getBillboard());

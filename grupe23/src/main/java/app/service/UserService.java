@@ -12,7 +12,11 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final static String TOKEN = "1234";
+    private final static String TOKEN = "123456";
+    private final static String ADMIN = "admin";
+    private final static String PERMISSON_DENIED = "No posee los permisos suficientes";
+    private final static String ACCESS_DENIED = "Token de acceso incorrecto";
+    private final static String SUCCESS = "acceso correcto";
 
     @Autowired
     UserDAO userDAO;
@@ -67,14 +71,14 @@ public class UserService {
         User user = userDAO.getUserByEmail(userName);
         if(user!=null){
             if(user.getPassword().equals(password)){
-                response.set("token",TOKEN);
+                response.set("token",userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN);
             }
         }
         return response;
     }
 
     public User getUserById(long id,String token){
-        if(token.equals(TOKEN)){
+        if(token.equals(userDAO.getUser(id).getId()+"-"+TOKEN)){
             if(userDAO.getUser(id)!=null){
                 return userDAO.getUser(id);
             }
@@ -84,7 +88,7 @@ public class UserService {
     }
 
     public Boolean deleteUserById(long id,String token){
-        if(token.equals(TOKEN)){
+        if(token.equals(userDAO.getUser(id).getId()+"-"+TOKEN)){
             User user = userDAO.deleteUser(id);
             if(user!=null){
                 userDAO.borrar(user);
@@ -114,5 +118,25 @@ public class UserService {
         }
 
         return billboardsUsers;
+    }
+
+    public String createBillboard(Billboard billboard,User user,String token){
+        if(token.equals(userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN)){
+            if(userDAO.getUserByEmail(user.getEmail()).getType().equals(ADMIN)){
+                Billboard bill = new Billboard();
+                bill.setTitle(billboard.getTitle());
+                bill.setDescription(billboard.getDescription());
+                bill.setDate(billboard.getDate());
+
+                User u = userDAO.getUserByEmail(user.getEmail());
+
+                bill.setCreator(u);
+
+                billboardDAO.persistir(bill);
+                return SUCCESS;
+            }
+            return PERMISSON_DENIED;
+        }
+        return ACCESS_DENIED;
     }
 }

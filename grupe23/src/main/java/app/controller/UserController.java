@@ -1,10 +1,7 @@
 package app.controller;
 
 
-import app.model.Billboard;
-import app.model.BillboardsUser;
-import app.model.CategoriesUser;
-import app.model.User;
+import app.model.*;
 import app.model.dao.BillboardDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +20,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
 
 
     public UserController() {
@@ -47,14 +43,14 @@ public class UserController {
 
     @RequestMapping(value = "/users/{id}",method = RequestMethod.GET)
     public ResponseEntity<User> getUser(@PathVariable("id") long id,@RequestHeader("token") String token){
-        if(token.equals("1234")){
+
             User user = userService.getUserById(id,token);
             if(user!=null){
                 return new ResponseEntity<>(user,HttpStatus.OK);
             }
-            return new ResponseEntity<>(user,HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+
+
     }
 
     @RequestMapping(value = "/users/{id}",method = RequestMethod.DELETE)
@@ -83,15 +79,15 @@ public class UserController {
 
     @RequestMapping(value="/get-billboards",method = RequestMethod.POST)
     public ResponseEntity<List<BillboardsUser>> getBillboards(@RequestParam("userName") String userName){
-        //HttpHeaders response = new HttpHeaders();
-        //HttpHeaders header = userService.loginUser(userName,password,response);
-        /*if(!header.get("token").isEmpty()){
-            return ResponseEntity.ok().headers(header).body("ok");
-        }
-        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);*/
 
         List<BillboardsUser> billboards = userService.getBillboards(userName);
         return new ResponseEntity<List<BillboardsUser>>(billboards,HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/create-billboard",method = RequestMethod.POST)
+    public ResponseEntity<String> createBillboard(@RequestBody UserBillboards userBillboards, @RequestHeader("token") String token){
+        String response = userService.createBillboard(userBillboards.getBillboard(),userBillboards.getUser(),token);
+        return new ResponseEntity<String>(response, HttpStatus.OK);
     }
 
 
