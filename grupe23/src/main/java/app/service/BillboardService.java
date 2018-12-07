@@ -10,6 +10,7 @@ import app.model.Publication;
 import app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class BillboardService {
         Billboard newBillboard = billboardDAO.getBillboard(billboardDAO.getIdFromBillboard(billboard.getTitle()));
         List<Publication> publications1 = new ArrayList<>();
         for (Publication pub:newBillboard.getPublications()) {
+            pub.setCreator(userDAO.getUser(newBillboard.getCreator().getId()));
             publications1.add(publicationDAO.getPublication(pub.getTitle()));
         }
         newBillboard.setPublications(publications1);

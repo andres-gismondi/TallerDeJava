@@ -5,6 +5,9 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public class PublicationDAOHibernateJPA extends GenericDAOHibernateJPA<Publication> implements PublicationDAO {
     public PublicationDAOHibernateJPA(){
@@ -20,5 +23,19 @@ public class PublicationDAOHibernateJPA extends GenericDAOHibernateJPA<Publicati
             Hibernate.initialize(publication.getCommentaries());
         }
         return publication;
+    }
+
+    @Override
+    @Transactional
+    public List<Publication> getPublications(String title){
+        List<Publication> publications = this.listar();
+        List<Publication> returnPublications = new ArrayList<>();
+        for (Publication pub:publications) {
+            if(pub.getBillboard().getTitle().equals(title)){
+                Hibernate.initialize(pub.getCommentaries());
+                returnPublications.add(pub);
+            }
+        }
+        return returnPublications;
     }
 }

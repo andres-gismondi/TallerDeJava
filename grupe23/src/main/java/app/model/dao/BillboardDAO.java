@@ -2,6 +2,8 @@ package app.model.dao;
 
 import app.model.Billboard;
 
+import java.util.List;
+
 public interface BillboardDAO extends GenericDAO<Billboard>{
     public Billboard getBillboard(long id);
 
@@ -12,4 +14,6 @@ public interface BillboardDAO extends GenericDAO<Billboard>{
     public Billboard getBillboardByTitle(String title);
 
     public Boolean billboardHasPublication(String title, String name);
+
+    public List<Billboard> getBillboards();
 }

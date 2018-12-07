@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +22,12 @@ public class UserService {
 
     @Autowired
     CommunicationDAO communicationDAO;
+
+    @Autowired
+    BillboardDAO billboardDAO;
+
+    @Autowired
+    PublicationDAO publicationDAO;
 
     public UserService() {
     }
@@ -86,5 +93,26 @@ public class UserService {
             return false;
         }
         return false;
+    }
+
+    public List<BillboardsUser>  getBillboards(String userName){
+        List<Billboard> billboards = billboardDAO.getBillboards();
+        List<Billboard> returnBillboards = new ArrayList<>();
+        for (Billboard bill:billboards) {
+            if(bill.getCreator().getEmail().equals(userName)){
+                returnBillboards.add(bill);
+            }
+        }
+        return this.setNewBillboards(returnBillboards);
+    }
+
+    private List<BillboardsUser> setNewBillboards(List<Billboard> billboards){
+        List<BillboardsUser> billboardsUsers= new ArrayList<>();
+        for (Billboard bill:billboards) {
+            BillboardsUser billboardsUser = new BillboardsUser(bill.getId(),bill.getCategories(),bill.getTitle(),bill.getDescription(),bill.getDate());
+            billboardsUsers.add(billboardsUser);
+        }
+
+        return billboardsUsers;
     }
 }

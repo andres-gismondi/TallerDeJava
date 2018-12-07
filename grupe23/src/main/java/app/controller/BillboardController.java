@@ -29,8 +29,8 @@ public class BillboardController {
         return new ResponseEntity<Billboard>(billboard,HttpStatus.OK);
     }
 
-    @RequestMapping(value="/set-publications",method = RequestMethod.POST)
-    public ResponseEntity<Billboard> setPublications(@RequestBody PublicationsBillboard publicationsBillboard){
+    @RequestMapping(value="/get-publications",method = RequestMethod.POST)
+    public ResponseEntity<Billboard> getPublications(@RequestBody PublicationsBillboard publicationsBillboard){
         Billboard billboard = billboardService.getPublications(publicationsBillboard.getPublications(),publicationsBillboard.getBillboard());
         return new ResponseEntity<Billboard>(billboard,HttpStatus.OK);
     }

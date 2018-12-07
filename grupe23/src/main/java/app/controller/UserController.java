@@ -1,8 +1,11 @@
 package app.controller;
 
 
+import app.model.Billboard;
+import app.model.BillboardsUser;
 import app.model.CategoriesUser;
 import app.model.User;
+import app.model.dao.BillboardDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,6 +23,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+
 
     public UserController() {
     }
@@ -74,6 +79,19 @@ public class UserController {
             return ResponseEntity.ok().headers(header).body("ok");
         }
         return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    }
+
+    @RequestMapping(value="/get-billboards",method = RequestMethod.POST)
+    public ResponseEntity<List<BillboardsUser>> getBillboards(@RequestParam("userName") String userName){
+        //HttpHeaders response = new HttpHeaders();
+        //HttpHeaders header = userService.loginUser(userName,password,response);
+        /*if(!header.get("token").isEmpty()){
+            return ResponseEntity.ok().headers(header).body("ok");
+        }
+        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);*/
+
+        List<BillboardsUser> billboards = userService.getBillboards(userName);
+        return new ResponseEntity<List<BillboardsUser>>(billboards,HttpStatus.OK);
     }
 
 

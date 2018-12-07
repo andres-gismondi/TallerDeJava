@@ -1,9 +1,12 @@
 package app.model.dao;
 
 import app.model.Billboard;
+import app.model.Publication;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> implements BillboardDAO {
@@ -22,6 +25,7 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
 
         return billboard;
     }
+
 
     @Transactional
     public long getIdFromBillboard(String title){
@@ -61,5 +65,16 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
             }
         }
         return false;
+    }
+
+    @Override
+    @Transactional
+    public List<Billboard> getBillboards(){
+        List<Billboard> billboards = this.listar();
+        for (Billboard bill:billboards) {
+            Hibernate.initialize(bill.getCategories());
+            Hibernate.initialize(bill.getPublications());
+        }
+        return billboards;
     }
 }
