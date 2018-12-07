@@ -36,9 +36,9 @@ public class UserController {
     }
 
     @RequestMapping(value="/create",method = RequestMethod.POST)
-    public ResponseEntity<Boolean> createUser(@RequestBody User user){
-        Boolean bb = userService.createUser(user);
-        return new ResponseEntity<Boolean>(bb,HttpStatus.OK);
+    public ResponseEntity<String> createUser(@RequestBody User user,@RequestHeader("token") String token){
+        String response = userService.createUser(user,token);
+        return new ResponseEntity<String>(response,HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users/{id}",method = RequestMethod.GET)
@@ -62,9 +62,9 @@ public class UserController {
     }
 
     @RequestMapping(value="/set-categories",method = RequestMethod.POST)
-    public ResponseEntity<User> setCategories(@RequestBody CategoriesUser categoriesUser){
-        User user = userService.setCategories(categoriesUser.getCategories(),categoriesUser.getUser());
-        return new ResponseEntity<User>(user,HttpStatus.OK);
+    public ResponseEntity<String> setCategories(@RequestBody CategoriesUser categoriesUser,@RequestHeader("token") String token){
+        String response = userService.setCategories(categoriesUser.getCategories(),categoriesUser.getUser(),token);
+        return new ResponseEntity<String>(response,HttpStatus.OK);
     }
 
     @RequestMapping(value="/login",method = RequestMethod.POST)
@@ -77,11 +77,14 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
-    @RequestMapping(value="/get-billboards",method = RequestMethod.POST)
-    public ResponseEntity<List<BillboardsUser>> getBillboards(@RequestParam("userName") String userName){
+    @RequestMapping(value="/get-billboards",method = RequestMethod.GET)
+    public ResponseEntity<List<BillboardsUser>> getBillboards(@RequestParam("userName") String userName,@RequestHeader("token") String token){
 
-        List<BillboardsUser> billboards = userService.getBillboards(userName);
-        return new ResponseEntity<List<BillboardsUser>>(billboards,HttpStatus.OK);
+        List<BillboardsUser> billboards = userService.getBillboards(userName,token);
+        if(billboards!=null){
+            return new ResponseEntity<List<BillboardsUser>>(billboards,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
     @RequestMapping(value="/create-billboard",method = RequestMethod.POST)

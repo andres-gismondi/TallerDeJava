@@ -40,31 +40,45 @@ public class UserService {
         return userDAO.listarUsuarios();
     }
 
-    public Boolean createUser(User user){
+    public String createUser(User user,String token){
 
-        User newUser = new User();
-        newUser.setPassword(user.getPassword());
-        newUser.setEmail(user.getEmail());
-        newUser.setFirstName(user.getFirstName());
-        newUser.setLastName(user.getLastName());
-        newUser.setType(user.getType());
+        if(token.equals(userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN)){
+            if(userDAO.getUserByEmail(user.getEmail()).getType().equals(ADMIN)){
+                User newUser = new User();
+                newUser.setPassword(user.getPassword());
+                newUser.setEmail(user.getEmail());
+                newUser.setFirstName(user.getFirstName());
+                newUser.setLastName(user.getLastName());
+                newUser.setType(user.getType());
 
-        userDAO.persistir(newUser);
-
-        return true;
+                userDAO.persistir(newUser);
+                return SUCCESS;
+            }
+            return PERMISSON_DENIED;
+        }
+        return ACCESS_DENIED;
     }
 
-    public User setCategories(List<Category> categories, User user){
+    public String setCategories(List<Category> categories, User user, String token){
 
-        User newUser = userDAO.getUser(userDAO.getIdFromUser(user.getEmail()));
-        for (Category cat: categories) {
-            if(!userDAO.userHasCategory(newUser.getEmail(),cat.getName())){
-                Category category = categoryDAO.getCategory(cat.getName());
-                newUser.addCategory(category);
+        if(token.equals(userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN)){
+            if(userDAO.getUserByEmail(user.getEmail()).getType().equals(ADMIN)){
+                User newUser = userDAO.getUser(userDAO.getIdFromUser(user.getEmail()));
+                for (Category cat: categories) {
+                    if(!userDAO.userHasCategory(newUser.getEmail(),cat.getName())){
+                        Category category = categoryDAO.getCategory(cat.getName());
+                        newUser.addCategory(category);
+                    }
+                }
+                userDAO.actualizar(newUser);
+                return SUCCESS;
             }
+            return PERMISSON_DENIED;
         }
-        userDAO.actualizar(newUser);
-        return newUser;
+        return ACCESS_DENIED;
+
+
+
     }
 
     public HttpHeaders loginUser(String userName, String password, HttpHeaders response){
@@ -99,15 +113,18 @@ public class UserService {
         return false;
     }
 
-    public List<BillboardsUser>  getBillboards(String userName){
-        List<Billboard> billboards = billboardDAO.getBillboards();
-        List<Billboard> returnBillboards = new ArrayList<>();
-        for (Billboard bill:billboards) {
-            if(bill.getCreator().getEmail().equals(userName)){
-                returnBillboards.add(bill);
+    public List<BillboardsUser>  getBillboards(String userName,String token){
+        if(token.equals(userDAO.getUserByEmail(userName).getId()+"-"+TOKEN)){
+            List<Billboard> billboards = billboardDAO.getBillboards();
+            List<Billboard> returnBillboards = new ArrayList<>();
+            for (Billboard bill:billboards) {
+                if(bill.getCreator().getEmail().equals(userName)){
+                    returnBillboards.add(bill);
+                }
             }
+            return this.setNewBillboards(returnBillboards);
         }
-        return this.setNewBillboards(returnBillboards);
+        return null;
     }
 
     private List<BillboardsUser> setNewBillboards(List<Billboard> billboards){
