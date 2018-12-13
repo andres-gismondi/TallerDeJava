@@ -85,6 +85,8 @@ public class UserService {
         User user = userDAO.getUserByEmail(userName);
         if(user!=null){
             if(user.getPassword().equals(password)){
+                //response.set("Access-Control-Expose-Headers", "Authorization");
+                //response.set("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header");
                 response.set("token",userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN);
             }
         }

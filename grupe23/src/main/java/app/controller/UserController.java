@@ -2,7 +2,6 @@ package app.controller;
 
 
 import app.model.*;
-import app.model.dao.BillboardDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -73,9 +72,9 @@ public class UserController {
         HttpHeaders response = new HttpHeaders();
         HttpHeaders header = userService.loginUser(userName,password,response);
         if(!header.get("token").isEmpty()){
-            return ResponseEntity.ok().headers(header).body("ok");
+            return new ResponseEntity<String>("ok", header, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        return new ResponseEntity<>("error",HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
     @RequestMapping(value="/get-billboards",method = RequestMethod.GET)
