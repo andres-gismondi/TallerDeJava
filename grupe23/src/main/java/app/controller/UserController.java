@@ -13,7 +13,7 @@ import app.service.UserService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value="/user-controller")
 public class UserController {
 
@@ -68,17 +68,17 @@ public class UserController {
     }
 
     @RequestMapping(value="/login",method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestParam("userName") String userName, @RequestParam("password") String password){
+    public ResponseEntity<String> login(/*@RequestHeader("user-name") String userName, @RequestHeader("user-password") String password/*@RequestParam("userName") String userName, @RequestParam("password") String password*/){
         HttpHeaders response = new HttpHeaders();
-        HttpHeaders header = userService.loginUser(userName,password,response);
-        if(!header.get("token").isEmpty()){
-            return new ResponseEntity<String>("ok", header, HttpStatus.CREATED);
+        HttpHeaders header = userService.loginUser("julian@julian.com.ar","julian1234",response);
+        if(!header.get("Authorization").isEmpty()){
+            return new ResponseEntity<String>(null, header, HttpStatus.CREATED);
         }
         return new ResponseEntity<>("error",HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
     @RequestMapping(value="/get-billboards",method = RequestMethod.GET)
-    public ResponseEntity<List<BillboardsUser>> getBillboards(@RequestParam("userName") String userName,@RequestHeader("token") String token){
+    public ResponseEntity<List<BillboardsUser>> getBillboards(@RequestParam("userName") String userName,@RequestHeader("Authorization") String token){
 
         List<BillboardsUser> billboards = userService.getBillboards(userName,token);
         if(billboards!=null){
@@ -88,7 +88,7 @@ public class UserController {
     }
 
     @RequestMapping(value="/create-billboard",method = RequestMethod.POST)
-    public ResponseEntity<String> createBillboard(@RequestBody UserBillboards userBillboards, @RequestHeader("token") String token){
+    public ResponseEntity<String> createBillboard(@RequestBody UserBillboards userBillboards, @RequestHeader("Authorization") String token){
         String response = userService.createBillboard(userBillboards.getBillboard(),userBillboards.getUser(),token);
         return new ResponseEntity<String>(response, HttpStatus.OK);
     }

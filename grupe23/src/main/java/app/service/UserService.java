@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final static String TOKEN = "123456";
+    private final static String TOKEN = "12345";
     private final static String ADMIN = "admin";
     private final static String PERMISSON_DENIED = "No posee los permisos suficientes";
     private final static String ACCESS_DENIED = "Token de acceso incorrecto";
@@ -41,9 +41,9 @@ public class UserService {
     }
 
     public String createUser(User user,String token){
-
-        if(token.equals(userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN)){
-            if(userDAO.getUserByEmail(user.getEmail()).getType().equals(ADMIN)){
+        String[] parts = token.split("-");
+        if(token.equals(userDAO.getUser(Long.parseLong(parts[0])).getId()+"-"+TOKEN)){
+            if(userDAO.getUser(Long.parseLong(parts[0])).getType().equals(ADMIN)){
                 User newUser = new User();
                 newUser.setPassword(user.getPassword());
                 newUser.setEmail(user.getEmail());
@@ -62,7 +62,7 @@ public class UserService {
     public String setCategories(List<Category> categories, User user, String token){
 
         if(token.equals(userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN)){
-            if(userDAO.getUserByEmail(user.getEmail()).getType().equals(ADMIN)){
+
                 User newUser = userDAO.getUser(userDAO.getIdFromUser(user.getEmail()));
                 for (Category cat: categories) {
                     if(!userDAO.userHasCategory(newUser.getEmail(),cat.getName())){
@@ -72,8 +72,7 @@ public class UserService {
                 }
                 userDAO.actualizar(newUser);
                 return SUCCESS;
-            }
-            return PERMISSON_DENIED;
+
         }
         return ACCESS_DENIED;
 
@@ -85,9 +84,10 @@ public class UserService {
         User user = userDAO.getUserByEmail(userName);
         if(user!=null){
             if(user.getPassword().equals(password)){
-                //response.set("Access-Control-Expose-Headers", "Authorization");
+
                 //response.set("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header");
-                response.set("token",userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN);
+                response.set("Authorization",userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN);
+                response.set("Access-Control-Expose-Headers", "Authorization");
             }
         }
         return response;

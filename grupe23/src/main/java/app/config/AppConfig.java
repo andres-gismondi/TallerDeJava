@@ -22,13 +22,11 @@ public class AppConfig implements WebMvcConfigurer {
 
 	/*@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/info/**")
-				.allowedOrigins("http://localhost:4200")
-				.allowedMethods("POST", "GET",  "PUT", "OPTIONS", "DELETE")
-				.allowedHeaders("X-Auth-Token", "Content-Type")
-				.exposedHeaders("token")
-				.allowCredentials(false)
-				.maxAge(4800);
+		registry.addMapping("/**")
+				.allowedMethods("*")
+				.allowedOrigins("*")
+				.allowedHeaders("Origin", "X-Requested-With","Content-Type","Accept","Authorization", "X-Custom-header")
+				.exposedHeaders("X-Custom-header","Authorization");
 	}*/
 
 }

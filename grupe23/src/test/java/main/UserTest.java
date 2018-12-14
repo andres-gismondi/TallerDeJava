@@ -58,7 +58,7 @@ public class UserTest {
         Assert.assertEquals("Kato",assertUser.getLastName());
        // Assert.assertEquals(assertUser.getCategories().size(),1);
         //borro el usuario
-        userDAO.borrar(assertUser);
+        //userDAO.borrar(assertUser);
         //checkeo si se borro.
         Boolean existe = userDAO.existe((long)assertUser.getId());
         Assert.assertEquals(false, (userDAO.existe((long)assertUser.getId())));

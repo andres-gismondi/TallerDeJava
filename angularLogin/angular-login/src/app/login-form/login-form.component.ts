@@ -28,7 +28,7 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit() {
     //console.log(this.apiSerive.getUsers());
-    //this.getUsers();
+    this.getUsers();
     this.login();
 
   }
@@ -41,10 +41,13 @@ export class LoginFormComponent implements OnInit {
   }
 
   login() {
-    let httpHeaders = new HttpHeaders({ 'Authorization': 'Bearer xxx' });
-    httpHeaders.append('token', '');
-    this.http.post('http://localhost:8080/grupo23_war_exploded/user-controller/login', this.body,{observe:'response'})
-      .subscribe(head => console.log(head))
+    let headers = new HttpHeaders({
+      'Content-Type':"application/json"
+    });
+    console.log(headers)
+    this.http.post<any>('http://localhost:8080/grupo23_war_exploded/user-controller/login',null, {headers:headers, observe:'response'})
+      .subscribe(head => {/*console.log(head.headers.get('Authorization'))*/ console.log('Error -> '+JSON.stringify(head.headers.get('Authorization')))})
+      
   }
 
 }
