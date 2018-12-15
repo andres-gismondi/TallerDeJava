@@ -1,0 +1,303 @@
+{
+	"info": {
+		"_postman_id": "bbcfb7c0-3c67-4725-a3a0-27d23b355800",
+		"name": "TTPS copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create-user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"federico@federico.com.ar\",\n\t\"firstName\":\"federico\",\n\t\"lastName\":\"federico\",\n\t\"type\":\"admin\",\n\t\"password\":\"federico1234\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"user-controller",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-category",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"ayed\",\n\t\"writePermisson\":true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/category-controller/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"category-controller",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set-categories-to-user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\":{\n\t\t\"email\":\"walter@walter.com\"\n\t},\n\t\"categories\":[\n\t\t{\n\t\t\t\"name\":\"ayed\"\n\t\t}\n\t]\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/set-categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"user-controller",
+						"set-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/login?userName=walter@walter.com&password=walter1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"user-controller",
+						"login"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "walter@walter.com"
+						},
+						{
+							"key": "password",
+							"value": "walter1234"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-billboard",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"billboard\":{\n\t\t\"title\":\"PrimerAnio\",\n\t\t\"description\":\"Materias de primer anio\",\n\t\t\"date\":\"2018-12-12\"\n\t},\n\t\"user\":{\n\t\t\"email\":\"walter@walter.com\"\n\t}\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/create-billboard",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"user-controller",
+						"create-billboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set-categories-to-billboard",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"billboard\":{\n\t\t\"title\":\"PrimerAnio\"\n\t},\n\t\"categories\":[\n\t\t{\n\t\t\t\"name\":\"cadp\"\n\t\t}\n\t]\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/billboard-controller/set-categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"billboard-controller",
+						"set-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-publication",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "2-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"publication\":{\n\t\t\"title\":\"Recuperatorio\",\n\t\t\"body\":\"Recuperatorio del primer parcial\",\n\t\t\"date\":\"2018-12-12\",\n\t\t\"enableComments\":true\n\t},\n\t\"user\":{\n\t\t\"email\":\"federico@federico.com.ar\"\n\t},\n\t\"billboard\":{\n\t\t\"title\":\"PrimerAnio\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/publication-controller/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"publication-controller",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-billboards-from-user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/get-billboards?userName=walter@walter.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"user-controller",
+						"get-billboards"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "walter@walter.com"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
