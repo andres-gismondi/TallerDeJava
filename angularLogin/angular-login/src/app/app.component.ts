@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { IUser } from './_models/user';
+import { ApiService } from './_services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-login';
+
+  private currentUser: IUser;
+
+  constructor(private apiService: ApiService,
+    private router: Router) {
+    this.apiService.currentUser.subscribe(user => this.currentUser = user);
+  }
+
+  logout() {
+    this.apiService.logoutService();
+    this.router.navigate(['/login']);
+  }
+
 }

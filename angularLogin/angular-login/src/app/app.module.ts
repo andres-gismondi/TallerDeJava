@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from 'src/app/_components/login-form/login-form.component';
 import { NavbarComponent } from 'src/app/_components/navbar/navbar.component';
+import { HomeComponent } from 'src/app/_components/home/home.component';
 
 
 
@@ -15,7 +16,8 @@ import { NavbarComponent } from 'src/app/_components/navbar/navbar.component';
   declarations: [
     AppComponent,
     LoginFormComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { FormArray } from '@angular/forms';
-import { HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 //Service
 import { ApiService } from 'src/app/_services/api.service';
+import { IUser } from 'src/app/_models/user';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -14,27 +15,35 @@ import { ApiService } from 'src/app/_services/api.service';
 })
 export class LoginFormComponent implements OnInit {
 
-  loginForm: FormGroup;
-
-  private body = new HttpParams()
-    .set('userName', 'julian@julian.com.ar')
-    .set('password', 'julian1234');
+  private loginForm: FormGroup;
+  private user: IUser = new IUser();
+  private returnUrl: string;
 
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
-    private apiServive: ApiService) { }
+    private apiServive: ApiService,
+    private router: Router,
+    private route: ActivatedRoute) {
+
+    if (this.apiServive.currentUserValue) {
+      this.router.navigate(['/']);
+    }
+
+  }
 
   ngOnInit() {
-    
+
     this.loginForm = this.fb.group({
       userName: ['', Validators.required],
       password: ['', Validators.required]
     })
 
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
   }
 
-  get formControl(){
+  get formControl() {
     return this.loginForm.controls;
   }
 
@@ -45,15 +54,14 @@ export class LoginFormComponent implements OnInit {
       .subscribe(data => { console.log(data) });
   }
 
-  login() {
-    this.apiServive.loginService(this.formControl.userName.value,this.formControl.password.value)
-      .subscribe(head => {console.log(JSON.stringify(head.headers.get('Authorization')))})  
-  }
-
-  onSubmit(){
-    console.log(this.formControl.userName.value)
-    console.log(this.formControl.password.value)
-    this.login()
+  onSubmit() {
+    return this.apiServive.loginService(this.formControl.userName.value, this.formControl.password.value)
+      .subscribe(user => {
+        this.router.navigate([this.returnUrl])
+      },
+        error => {
+          console.log(error);
+        })
   }
 
 }
