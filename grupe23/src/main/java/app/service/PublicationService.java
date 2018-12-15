@@ -22,7 +22,7 @@ public class PublicationService {
     UserDAO userDAO;
 
     public String createPublication(Publication publication, User user, Billboard billboard, String token){
-        if (token.equals(userDAO.getUserByEmail(user.getEmail()).getId() + "-" + UtilsImplementation.TOKEN)) {
+8        if (token.equals(userDAO.getUserByEmail(user.getEmail()).getId() + "-" + UtilsImplementation.TOKEN)) {
             Publication pub = new Publication();
             pub.setBody(publication.getBody());
             pub.setDate(publication.getDate());

@@ -1,7 +1,9 @@
 package app.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -10,35 +12,36 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="BILLBOARD")
+@Table(name = "BILLBOARD")
 public class Billboard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private long id;
-
-
+    //@JsonIgnore
+    //@JsonManagedReference
+    @BatchSize(size = 1000)
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "billboard",
             orphanRemoval = true)
     /*@JoinTable(name="BILLBOARD_HAS_PUBLICATION",
             joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="publication_id", referencedColumnName="PUBLICATION_ID"))*/
-    @JsonManagedReference
+
     private List<Publication> publications = new ArrayList<>();
 
-
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name="BILLBOARD_HAS_CATEGORY",
-            joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
-            inverseJoinColumns=@JoinColumn(name="category_id", referencedColumnName="CATEGORY_ID"))
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "BILLBOARD_HAS_CATEGORY",
+            joinColumns = @JoinColumn(name = "billboard_id", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "CATEGORY_ID"))
 
     private List<Category> categories = new ArrayList<>();
-    @Column(name="TITLE")
+    @Column(name = "TITLE")
     private String title;
-    @Column(name="DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String description;
-    @Column(name="DATE")
+    @Column(name = "DATE")
     private Date date;
     @ManyToOne
     private User creator;
@@ -51,10 +54,11 @@ public class Billboard {
         this.creator = creator;
     }
 
-    public void removePublication(Publication publication){
+    public void removePublication(Publication publication) {
         this.getPublications().remove(publication);
     }
-    public void removeCategories(Category category){
+
+    public void removeCategories(Category category) {
         this.getCategories().remove(category);
     }
 
@@ -108,15 +112,16 @@ public class Billboard {
         this.date = date;
     }
 
-    public void addCategory(Category category){
+    public void addCategory(Category category) {
         this.categories.add(category);
     }
 
-    public void addPublication(Publication publication){
+    public void addPublication(Publication publication) {
         this.publications.add(publication);
     }
+
     @Transactional
-    public Publication getPublication(Publication publication){
-        return this.getPublications().stream().filter(p -> p.getId()==publication.getId()).findFirst().orElse(null);
+    public Publication getPublication(Publication publication) {
+        return this.getPublications().stream().filter(p -> p.getId() == publication.getId()).findFirst().orElse(null);
     }
 }

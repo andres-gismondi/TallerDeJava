@@ -47,17 +47,33 @@ public class BillboardService {
         return null;
     }
 
-    public Billboard getPublications(List<Publication> publications, Billboard billboard, String token) {
+    public List<Publication> getPublications(Billboard billboard, String token) {
         if (token.equals(userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getId() + "-" + UtilsImplementation.TOKEN)) {
             Billboard newBillboard = billboardDAO.getBillboard(billboardDAO.getIdFromBillboard(billboard.getTitle()));
             List<Publication> publications1 = new ArrayList<>();
             for (Publication pub : newBillboard.getPublications()) {
-                pub.setCreator(userDAO.getUser(newBillboard.getCreator().getId()));
-                publications1.add(publicationDAO.getPublication(pub.getTitle()));
+                Publication pp = new Publication();
+                pp.setCreator(userDAO.getUser(pub.getCreator().getId()));
+                pp.setBody(pub.getBody());
+                pp.setDate(pub.getDate());
+                pp.setEnableComments(pub.getEnableComments());
+                pp.setTitle(pub.getTitle());
+                pp.setCommentaries(pub.getCommentaries());
+                pp.setId(pub.getId());
+                pp.setBillboard(pub.getBillboard());
+                publications1.add(pp);
             }
-            newBillboard.setPublications(publications1);
-            newBillboard.setCreator(userDAO.getUser(newBillboard.getCreator().getId()));
-            return newBillboard;
+
+            return publications1;
+        }
+        return null;
+    }
+
+    public List<Billboard> getBillboards(String token) {
+        if (token.equals(userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getId() + "-" + UtilsImplementation.TOKEN)) {
+            if (userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getType().equals(UtilsImplementation.ADMIN)) {
+                return billboardDAO.getBillboards();
+            }
         }
         return null;
     }

@@ -17,13 +17,17 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
     @Override
     @Transactional
     public Billboard getBillboard(long id){
-        Billboard billboard = this.listar().stream().filter(b -> b.getId()==id).findFirst().orElse(null);
-        if(billboard!=null){
-            Hibernate.initialize(billboard.getCategories());
-            Hibernate.initialize(billboard.getPublications());
+        Billboard bill = this.listar().stream().filter(b -> b.getId()==id).findFirst().orElse(null);
+        if(bill!=null){
+            Hibernate.initialize(bill.getCategories());
+            Hibernate.initialize(bill.getPublications());
+            Hibernate.initialize(bill.getCreator().getCategories());
+            for (Publication pub:bill.getPublications()) {
+                Hibernate.initialize(pub.getCommentaries());
+            }
         }
 
-        return billboard;
+        return bill;
     }
 
 
@@ -74,6 +78,10 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
         for (Billboard bill:billboards) {
             Hibernate.initialize(bill.getCategories());
             Hibernate.initialize(bill.getPublications());
+            Hibernate.initialize(bill.getCreator().getCategories());
+            for (Publication pub:bill.getPublications()) {
+                Hibernate.initialize(pub.getCommentaries());
+            }
         }
         return billboards;
     }

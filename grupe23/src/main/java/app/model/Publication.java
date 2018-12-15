@@ -1,7 +1,9 @@
 package app.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -26,16 +28,16 @@ public class Publication {
     private Timestamp date;
     @Column(name="COMMENTS_ENABLE")
     private Boolean enableComments;
-
+    @BatchSize(size = 1000)
+    @JsonIgnore
     @OneToMany(
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             mappedBy = "publication",
             orphanRemoval = true
     )
     private List<Commentary> commentaries = new ArrayList<>();
-
+    //@JsonBackReference
     @ManyToOne
-    @JsonBackReference
     private Billboard billboard;
 
     public Publication() {
