@@ -9,14 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class UserService {
-
-    private final static String TOKEN = "12345";
-    private final static String ADMIN = "admin";
-    private final static String PERMISSON_DENIED = "No posee los permisos suficientes";
-    private final static String ACCESS_DENIED = "Token de acceso incorrecto";
-    private final static String SUCCESS = "acceso correcto";
 
     @Autowired
     UserDAO userDAO;
@@ -36,14 +31,20 @@ public class UserService {
     public UserService() {
     }
 
-    public List<User> listAllUsers() {
-        return userDAO.listarUsuarios();
+    public List<User> listAllUsers(String token) {
+        if (token.equals(userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getId() + "-" + UtilsImplementation.TOKEN)) {
+            if (userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getType().equals(UtilsImplementation.ADMIN)) {
+                return userDAO.listarUsuarios();
+            }
+            return null;
+        }
+        return null;
     }
 
-    public String createUser(User user,String token){
-        String[] parts = token.split("-");
-        if(token.equals(userDAO.getUser(Long.parseLong(parts[0])).getId()+"-"+TOKEN)){
-            if(userDAO.getUser(Long.parseLong(parts[0])).getType().equals(ADMIN)){
+    public String createUser(User user, String token) {
+
+        if (token.equals(userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getId() + "-" + UtilsImplementation.TOKEN)) {
+            if (userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getType().equals(UtilsImplementation.ADMIN)) {
                 User newUser = new User();
                 newUser.setPassword(user.getPassword());
                 newUser.setEmail(user.getEmail());
@@ -52,50 +53,46 @@ public class UserService {
                 newUser.setType(user.getType());
 
                 userDAO.persistir(newUser);
-                return SUCCESS;
+                return UtilsImplementation.SUCCESS;
             }
-            return PERMISSON_DENIED;
+            return UtilsImplementation.PERMISSON_DENIED;
         }
-        return ACCESS_DENIED;
+        return UtilsImplementation.ACCESS_DENIED;
     }
 
-    public String setCategories(List<Category> categories, User user, String token){
+    public String setCategories(List<Category> categories, User user, String token) {
 
-        if(token.equals(userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN)){
-
-                User newUser = userDAO.getUser(userDAO.getIdFromUser(user.getEmail()));
-                for (Category cat: categories) {
-                    if(!userDAO.userHasCategory(newUser.getEmail(),cat.getName())){
-                        Category category = categoryDAO.getCategory(cat.getName());
-                        newUser.addCategory(category);
-                    }
+        if (token.equals(userDAO.getUserByEmail(user.getEmail()).getId() + "-" + UtilsImplementation.TOKEN)) {
+            User newUser = userDAO.getUser(userDAO.getIdFromUser(user.getEmail()));
+            for (Category cat : categories) {
+                if (!userDAO.userHasCategory(newUser.getEmail(), cat.getName())) {
+                    Category category = categoryDAO.getCategory(cat.getName());
+                    newUser.addCategory(category);
                 }
-                userDAO.actualizar(newUser);
-                return SUCCESS;
-
+            }
+            userDAO.actualizar(newUser);
+            return UtilsImplementation.SUCCESS;
         }
-        return ACCESS_DENIED;
-
+        return UtilsImplementation.ACCESS_DENIED;
 
 
     }
 
-    public HttpHeaders loginUser(String userName, String password, HttpHeaders response){
+    public HttpHeaders loginUser(String userName, String password, HttpHeaders response) {
         User user = userDAO.getUserByEmail(userName);
-        if(user!=null){
-            if(user.getPassword().equals(password)){
+        if (user != null) {
+            if (user.getPassword().equals(password)) {
 
-                //response.set("Access-Control-Allow-Headers", "Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header");
-                response.set("Authorization",userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN);
+                response.set("Authorization", userDAO.getUserByEmail(user.getEmail()).getId() + "-" + UtilsImplementation.TOKEN);
                 response.set("Access-Control-Expose-Headers", "Authorization");
             }
         }
         return response;
     }
 
-    public User getUserById(long id,String token){
-        if(token.equals(userDAO.getUser(id).getId()+"-"+TOKEN)){
-            if(userDAO.getUser(id)!=null){
+    public User getUserById(long id, String token) {
+        if (token.equals(userDAO.getUser(id).getId() + "-" + UtilsImplementation.TOKEN)) {
+            if (userDAO.getUser(id) != null) {
                 return userDAO.getUser(id);
             }
         }
@@ -103,10 +100,10 @@ public class UserService {
 
     }
 
-    public Boolean deleteUserById(long id,String token){
-        if(token.equals(userDAO.getUser(id).getId()+"-"+TOKEN)){
+    public Boolean deleteUserById(long id, String token) {
+        if (token.equals(userDAO.getUser(id).getId() + "-" + UtilsImplementation.TOKEN)) {
             User user = userDAO.deleteUser(id);
-            if(user!=null){
+            if (user != null) {
                 userDAO.borrar(user);
                 return true;
             }
@@ -115,12 +112,12 @@ public class UserService {
         return false;
     }
 
-    public List<BillboardsUser>  getBillboards(String userName,String token){
-        if(token.equals(userDAO.getUserByEmail(userName).getId()+"-"+TOKEN)){
+    public List<BillboardsUser> getBillboards(String userName, String token) {
+        if (token.equals(userDAO.getUserByEmail(userName).getId() + "-" + UtilsImplementation.TOKEN)) {
             List<Billboard> billboards = billboardDAO.getBillboards();
             List<Billboard> returnBillboards = new ArrayList<>();
-            for (Billboard bill:billboards) {
-                if(bill.getCreator().getEmail().equals(userName)){
+            for (Billboard bill : billboards) {
+                if (bill.getCreator().getEmail().equals(userName)) {
                     returnBillboards.add(bill);
                 }
             }
@@ -129,19 +126,19 @@ public class UserService {
         return null;
     }
 
-    private List<BillboardsUser> setNewBillboards(List<Billboard> billboards){
-        List<BillboardsUser> billboardsUsers= new ArrayList<>();
-        for (Billboard bill:billboards) {
-            BillboardsUser billboardsUser = new BillboardsUser(bill.getId(),bill.getCategories(),bill.getTitle(),bill.getDescription(),bill.getDate());
+    private List<BillboardsUser> setNewBillboards(List<Billboard> billboards) {
+        List<BillboardsUser> billboardsUsers = new ArrayList<>();
+        for (Billboard bill : billboards) {
+            BillboardsUser billboardsUser = new BillboardsUser(bill.getId(), bill.getCategories(), bill.getTitle(), bill.getDescription(), bill.getDate());
             billboardsUsers.add(billboardsUser);
         }
 
         return billboardsUsers;
     }
 
-    public String createBillboard(Billboard billboard,User user,String token){
-        if(token.equals(userDAO.getUserByEmail(user.getEmail()).getId()+"-"+TOKEN)){
-            if(userDAO.getUserByEmail(user.getEmail()).getType().equals(ADMIN)){
+    public String createBillboard(Billboard billboard, User user, String token) {
+        if (token.equals(userDAO.getUserByEmail(user.getEmail()).getId() + "-" + UtilsImplementation.TOKEN)) {
+            if (userDAO.getUserByEmail(user.getEmail()).getType().equals(UtilsImplementation.ADMIN)) {
                 Billboard bill = new Billboard();
                 bill.setTitle(billboard.getTitle());
                 bill.setDescription(billboard.getDescription());
@@ -152,10 +149,10 @@ public class UserService {
                 bill.setCreator(u);
 
                 billboardDAO.persistir(bill);
-                return SUCCESS;
+                return UtilsImplementation.SUCCESS;
             }
-            return PERMISSON_DENIED;
+            return UtilsImplementation.PERMISSON_DENIED;
         }
-        return ACCESS_DENIED;
+        return UtilsImplementation.ACCESS_DENIED;
     }
 }

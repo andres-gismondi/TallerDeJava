@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(value="/user-controller")
+@RequestMapping(value = "/user-controller")
 public class UserController {
 
 
@@ -25,72 +25,69 @@ public class UserController {
     public UserController() {
     }
 
-    @RequestMapping(value="/users", method= RequestMethod.GET)
-    public ResponseEntity<List<User>> listAllUsers(){
-        List<User> users = userService.listAllUsers();
-        if(users.isEmpty()){
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
-        }else{
-            return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> listAllUsers(@RequestHeader("Authorization") String token) {
+        List<User> users = userService.listAllUsers(token);
+        if (users.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(users, HttpStatus.OK);
         }
     }
 
-    @RequestMapping(value="/create",method = RequestMethod.POST)
-    public ResponseEntity<String> createUser(@RequestBody User user,@RequestHeader("token") String token){
-        String response = userService.createUser(user,token);
-        return new ResponseEntity<String>(response,HttpStatus.OK);
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseEntity<String> createUser(@RequestBody User user, @RequestHeader("Authorization") String token) {
+        String body = userService.createUser(user, token);
+        return UtilsController.getResponseByString(body);
     }
 
-    @RequestMapping(value = "/users/{id}",method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(@PathVariable("id") long id,@RequestHeader("token") String token){
-
-            User user = userService.getUserById(id,token);
-            if(user!=null){
-                return new ResponseEntity<>(user,HttpStatus.OK);
-            }
-        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-
-
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    public ResponseEntity<User> getUser(@PathVariable("id") long id, @RequestHeader("Authorization") String token) {
+        User user = userService.getUserById(id, token);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value = "/users/{id}",method = RequestMethod.DELETE)
-    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") long id, @RequestHeader("token") String token){
-        if(userService.deleteUserById(id,token)){
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") long id, @RequestHeader("Authorization") String token) {
+        if (userService.deleteUserById(id, token)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value="/set-categories",method = RequestMethod.POST)
-    public ResponseEntity<String> setCategories(@RequestBody CategoriesUser categoriesUser,@RequestHeader("token") String token){
-        String response = userService.setCategories(categoriesUser.getCategories(),categoriesUser.getUser(),token);
-        return new ResponseEntity<String>(response,HttpStatus.OK);
+    @RequestMapping(value = "/set-categories", method = RequestMethod.POST)
+    public ResponseEntity<String> setCategories(@RequestBody CategoriesUser categoriesUser, @RequestHeader("Authorization") String token) {
+        String body = userService.setCategories(categoriesUser.getCategories(), categoriesUser.getUser(), token);
+        return UtilsController.getResponseByString(body);
     }
 
-    @RequestMapping(value="/login",method = RequestMethod.POST)
-    public ResponseEntity<String> login(/*@RequestHeader("user-name") String userName, @RequestHeader("user-password") String password/*@RequestParam("userName") String userName, @RequestParam("password") String password*/){
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity<String> login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
         HttpHeaders response = new HttpHeaders();
-        HttpHeaders header = userService.loginUser("julian@julian.com.ar","julian1234",response);
-        if(!header.get("Authorization").isEmpty()){
-            return new ResponseEntity<String>(null, header, HttpStatus.CREATED);
+        HttpHeaders header = userService.loginUser(userName, password, response);
+        if (!header.get("Authorization").isEmpty()) {
+            return new ResponseEntity<>(null, header, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("error",HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        return new ResponseEntity<>("error", HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value="/get-billboards",method = RequestMethod.GET)
-    public ResponseEntity<List<BillboardsUser>> getBillboards(@RequestParam("userName") String userName,@RequestHeader("Authorization") String token){
+    @RequestMapping(value = "/get-billboards", method = RequestMethod.GET)
+    public ResponseEntity<List<BillboardsUser>> getBillboards(@RequestParam("userName") String userName, @RequestHeader("Authorization") String token) {
 
-        List<BillboardsUser> billboards = userService.getBillboards(userName,token);
-        if(billboards!=null){
-            return new ResponseEntity<List<BillboardsUser>>(billboards,HttpStatus.OK);
+        List<BillboardsUser> billboards = userService.getBillboards(userName, token);
+        if (billboards != null) {
+            return new ResponseEntity<>(billboards, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value="/create-billboard",method = RequestMethod.POST)
-    public ResponseEntity<String> createBillboard(@RequestBody UserBillboards userBillboards, @RequestHeader("Authorization") String token){
-        String response = userService.createBillboard(userBillboards.getBillboard(),userBillboards.getUser(),token);
-        return new ResponseEntity<String>(response, HttpStatus.OK);
+    @RequestMapping(value = "/create-billboard", method = RequestMethod.POST)
+    public ResponseEntity<String> createBillboard(@RequestBody UserBillboards userBillboards, @RequestHeader("Authorization") String token) {
+        String body = userService.createBillboard(userBillboards.getBillboard(), userBillboards.getUser(), token);
+        return UtilsController.getResponseByString(body);
     }
 
 

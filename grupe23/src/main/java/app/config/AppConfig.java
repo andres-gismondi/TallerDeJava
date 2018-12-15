@@ -20,13 +20,4 @@ public class AppConfig implements WebMvcConfigurer {
 		converters.add(new MappingJackson2HttpMessageConverter());
 	}
 
-	/*@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-				.allowedMethods("*")
-				.allowedOrigins("*")
-				.allowedHeaders("Origin", "X-Requested-With","Content-Type","Accept","Authorization", "X-Custom-header")
-				.exposedHeaders("X-Custom-header","Authorization");
-	}*/
-
 }

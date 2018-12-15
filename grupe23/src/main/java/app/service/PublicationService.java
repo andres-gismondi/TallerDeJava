@@ -21,21 +21,24 @@ public class PublicationService {
     @Autowired
     UserDAO userDAO;
 
-    public Boolean createPublication(Publication publication, User user, Billboard billboard){
-        Publication pub = new Publication();
-        pub.setBody(publication.getBody());
-        pub.setDate(publication.getDate());
-        pub.setEnableComments(publication.getEnableComments());
-        pub.setTitle(publication.getTitle());
+    public String createPublication(Publication publication, User user, Billboard billboard, String token){
+        if (token.equals(userDAO.getUserByEmail(user.getEmail()).getId() + "-" + UtilsImplementation.TOKEN)) {
+            Publication pub = new Publication();
+            pub.setBody(publication.getBody());
+            pub.setDate(publication.getDate());
+            pub.setEnableComments(publication.getEnableComments());
+            pub.setTitle(publication.getTitle());
 
-        User u = userDAO.getUserByEmail(user.getEmail());
-        Billboard b = billboardDAO.getBillboardByTitle(billboard.getTitle());
+            User u = userDAO.getUserByEmail(user.getEmail());
+            Billboard b = billboardDAO.getBillboardByTitle(billboard.getTitle());
 
-        pub.setCreator(u);
-        pub.setBillboard(b);
+            pub.setCreator(u);
+            pub.setBillboard(b);
 
-        publicationDAO.persistir(pub);
-        return true;
+            publicationDAO.persistir(pub);
+            return UtilsImplementation.SUCCESS;
+        }
+        return UtilsImplementation.ACCESS_DENIED;
     }
 
 }
