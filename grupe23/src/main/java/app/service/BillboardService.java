@@ -7,10 +7,8 @@ import app.model.dao.UserDAO;
 import app.model.Billboard;
 import app.model.Category;
 import app.model.Publication;
-import app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

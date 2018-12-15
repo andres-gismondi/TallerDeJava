@@ -18,7 +18,7 @@ public class BillboardController {
     public ResponseEntity<Billboard> setCategories(@RequestBody CategoriesBillboard categoriesBillboard,@RequestHeader("Authorization") String token){
         Billboard billboard = billboardService.setCategories(categoriesBillboard.getCategories(),categoriesBillboard.getBillboard(),token);
         if (billboard != null) {
-            return new ResponseEntity<Billboard>(billboard,HttpStatus.OK);
+            return new ResponseEntity<>(billboard,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
@@ -27,7 +27,7 @@ public class BillboardController {
     public ResponseEntity<Billboard> getPublications(@RequestBody PublicationsBillboard publicationsBillboard,@RequestHeader("Authorization") String token){
         Billboard billboard = billboardService.getPublications(publicationsBillboard.getPublications(),publicationsBillboard.getBillboard(),token);
         if (billboard != null) {
-            return new ResponseEntity<Billboard>(billboard,HttpStatus.OK);
+            return new ResponseEntity<>(billboard,HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }

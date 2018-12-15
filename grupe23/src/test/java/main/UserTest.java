@@ -29,7 +29,7 @@ public class UserTest {
     public void createAndDeleteUserWithCategory(){
         //creando categoria
         Category cc = new Category();
-        cc.setName("ayed");
+        cc.setName("cadp");
         cc.setWritePermisson(true);
 
         //creando un usuario
