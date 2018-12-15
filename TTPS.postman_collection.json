@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "bbcfb7c0-3c67-4725-a3a0-27d23b355800",
-		"name": "TTPS copy",
+		"_postman_id": "764ffba0-510d-4420-99f7-ba2747f2eecf",
+		"name": "TTPS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -24,7 +24,44 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\":\"federico@federico.com.ar\",\n\t\"firstName\":\"federico\",\n\t\"lastName\":\"federico\",\n\t\"type\":\"admin\",\n\t\"password\":\"federico1234\"\n}"
+					"raw": "{\n\t\"email\":\"federico@federico.com\",\n\t\"firstName\":\"federico\",\n\t\"lastName\":\"federico\",\n\t\"type\":\"admin\",\n\t\"password\":\"federico1234\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"user-controller",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-user-2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"andres@andres.com\",\n\t\"firstName\":\"andres\",\n\t\"lastName\":\"andres\",\n\t\"type\":\"admin\",\n\t\"password\":\"andres1234\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/create",
@@ -98,7 +135,44 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"user\":{\n\t\t\"email\":\"walter@walter.com\"\n\t},\n\t\"categories\":[\n\t\t{\n\t\t\t\"name\":\"ayed\"\n\t\t}\n\t]\n\t\n}"
+					"raw": "{\n\t\"user\":{\n\t\t\"email\":\"walter@walter.com\"\n\t},\n\t\"categories\":[\n\t\t{\n\t\t\t\"name\":\"ayed\"\n\t\t},\n\t\t{\n\t\t\t\"name\":\"cadp\"\n\t\t}\n\t]\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/set-categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"user-controller",
+						"set-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set-categories-to-user-2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "3-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\":{\n\t\t\"email\":\"andres@andres.com\"\n\t},\n\t\"categories\":[\n\t\t{\n\t\t\t\"name\":\"ayed\"\n\t\t},\n\t\t{\n\t\t\t\"name\":\"cadp\"\n\t\t}\n\t]\n\t\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/set-categories",
@@ -120,13 +194,31 @@
 			"name": "user-login",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/login?userName=walter@walter.com&password=walter1234",
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/login?user-name=walter@walter.com&user-password=walter1234",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -139,11 +231,11 @@
 					],
 					"query": [
 						{
-							"key": "userName",
+							"key": "user-name",
 							"value": "walter@walter.com"
 						},
 						{
-							"key": "password",
+							"key": "user-password",
 							"value": "walter1234"
 						}
 					]
@@ -189,6 +281,43 @@
 			"response": []
 		},
 		{
+			"name": "create-billboard-2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"billboard\":{\n\t\t\"title\":\"SegundoAnio\",\n\t\t\"description\":\"Materias de Segundo anio\",\n\t\t\"date\":\"2018-12-12\"\n\t},\n\t\"user\":{\n\t\t\"email\":\"walter@walter.com\"\n\t}\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/create-billboard",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"user-controller",
+						"create-billboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "set-categories-to-billboard",
 			"request": {
 				"method": "POST",
@@ -207,7 +336,44 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"billboard\":{\n\t\t\"title\":\"PrimerAnio\"\n\t},\n\t\"categories\":[\n\t\t{\n\t\t\t\"name\":\"cadp\"\n\t\t}\n\t]\n\t\n}"
+					"raw": "{\n\t\"billboard\":{\n\t\t\"title\":\"PrimerAnio\"\n\t},\n\t\"categories\":[\n\t\t{\n\t\t\t\"name\":\"ayed\"\n\t\t},\n\t\t{\n\t\t\t\"name\":\"cadp\"\n\t\t}\n\t]\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/billboard-controller/set-categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"billboard-controller",
+						"set-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "set-categories-to-billboard-2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"billboard\":{\n\t\t\"title\":\"SegundoAnio\"\n\t},\n\t\"categories\":[\n\t\t{\n\t\t\t\"name\":\"cadp\"\n\t\t},\n\t\t{\n\t\t\t\"name\":\"ayed\"\n\t\t}\n\t]\n\t\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/grupo23_war_exploded/billboard-controller/set-categories",
@@ -238,13 +404,50 @@
 					},
 					{
 						"key": "Authorization",
-						"value": "2-12345",
+						"value": "1-12345",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"publication\":{\n\t\t\"title\":\"Recuperatorio\",\n\t\t\"body\":\"Recuperatorio del primer parcial\",\n\t\t\"date\":\"2018-12-12\",\n\t\t\"enableComments\":true\n\t},\n\t\"user\":{\n\t\t\"email\":\"federico@federico.com.ar\"\n\t},\n\t\"billboard\":{\n\t\t\"title\":\"PrimerAnio\"\n\t}\n}"
+					"raw": "{\n\t\"publication\":{\n\t\t\"title\":\"Recuperatorio\",\n\t\t\"body\":\"Recuperatorio del primer parcial\",\n\t\t\"date\":\"2018-12-12\",\n\t\t\"enableComments\":true\n\t},\n\t\"user\":{\n\t\t\"email\":\"walter@walter.com\"\n\t},\n\t\"billboard\":{\n\t\t\"title\":\"PrimerAnio\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/publication-controller/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"publication-controller",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-publication-2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"publication\":{\n\t\t\"title\":\"Recuperatorio\",\n\t\t\"body\":\"Recuperatorio del primer parcial\",\n\t\t\"date\":\"2018-12-12\",\n\t\t\"enableComments\":true\n\t},\n\t\"user\":{\n\t\t\"email\":\"walter@walter.com\"\n\t},\n\t\"billboard\":{\n\t\t\"title\":\"PrimerAnio\"\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/grupo23_war_exploded/publication-controller/create",
@@ -293,6 +496,81 @@
 						{
 							"key": "userName",
 							"value": "walter@walter.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-billboards",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/billboard-controller/get-billboards",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"billboard-controller",
+						"get-billboards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-publications-from-billboard",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "1-12345",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\":\"PrimerAnio\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/grupo23_war_exploded/billboard-controller/get-publications",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grupo23_war_exploded",
+						"billboard-controller",
+						"get-publications"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "PrimerAnio",
+							"disabled": true
 						}
 					]
 				}
