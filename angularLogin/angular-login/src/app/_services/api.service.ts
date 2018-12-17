@@ -3,21 +3,21 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { IUser } from 'src/app/_models/user';
+import * as models from 'src/app/_models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private user: IUser = new IUser();
+  private user: models.IUser = new models.IUser();
   //private headers: HttpHeaders = new HttpHeaders();
   private body: HttpParams;
-  private currentUserSubject: BehaviorSubject<IUser>;
-  public currentUser: Observable<IUser>;
+  private currentUserSubject: BehaviorSubject<models.IUser>;
+  public currentUser: Observable<models.IUser>;
 
   constructor(private http: HttpClient, ) {
-    this.currentUserSubject = new BehaviorSubject<IUser>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<models.IUser>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -36,7 +36,16 @@ export class ApiService {
       }));
   }
 
-  get currentUserValue(): IUser{
+  getBillboards(){
+    let headers: HttpHeaders = new HttpHeaders();
+    
+    headers.set('Content-Type','application/json').set('Authorization',/*JSON.stringify(this.user.id)*/'1-12345')
+    return this.http.get<models.Billboard[]>('http://localhost:8080/grupo23_war_exploded/billboard-controller/get-billboards',{
+      headers: { 'Authorization': '1-12345' }
+    })
+  }
+
+  get currentUserValue(): models.IUser{
     return this.currentUserSubject.value;
   }
 

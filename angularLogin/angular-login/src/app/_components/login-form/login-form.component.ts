@@ -8,6 +8,8 @@ import { ApiService } from 'src/app/_services/api.service';
 import { IUser } from 'src/app/_models/user';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import * as models from 'src/app/_models/user';
+
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
@@ -16,7 +18,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class LoginFormComponent implements OnInit {
 
   private loginForm: FormGroup;
-  private user: IUser = new IUser();
+  
+  private user: models.IUser = new models.IUser();
   private returnUrl: string;
 
   constructor(
@@ -33,7 +36,8 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    
+    this.getUsers()
     this.loginForm = this.fb.group({
       userName: ['', Validators.required],
       password: ['', Validators.required]
@@ -49,10 +53,12 @@ export class LoginFormComponent implements OnInit {
 
   getUsers(): void {
     this.http.get('http://localhost:8080/grupo23_war_exploded/user-controller/users/1', {
-      headers: { 'token': '1-12345' }
+      headers: { 'Authorization': '1-12345' }
     })
       .subscribe(data => { console.log(data) });
   }
+
+  
 
   onSubmit() {
     return this.apiServive.loginService(this.formControl.userName.value, this.formControl.password.value)
