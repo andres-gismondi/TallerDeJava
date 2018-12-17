@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/_services/api.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private apiServive: ApiService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+  }
+
+  logout(){
+    this.apiServive.logoutService();
+    this.router.navigate(['/login']);
   }
 
 }
