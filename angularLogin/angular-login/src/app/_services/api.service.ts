@@ -40,6 +40,7 @@ export class ApiService {
 
   postBillboard(bill:models.BillboardUser){
     let billJson = JSON.stringify(bill);
+    console.log(billJson)
     return this.http.post<any>('http://localhost:8080/grupo23_war_exploded/user-controller/create-billboard',billJson,this.getHeader());
   }
 
