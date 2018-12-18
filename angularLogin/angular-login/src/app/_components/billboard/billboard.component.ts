@@ -96,8 +96,9 @@ export class BillboardComponent implements OnInit {
     return this.apiServive.areUAtHome;
   }
 
-  selectMe(com: models.Category) {
+  selectMe(com: models.Category, index: number) {
     this.categoriesToPost.push(com)
+    this.categories.splice(index,1)
   }
 
   get postCategories() {
