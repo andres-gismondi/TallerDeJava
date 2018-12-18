@@ -46,7 +46,7 @@ export class BillboardComponent implements OnInit {
     let bill = new models.Billboard();
     bill.title = this.billboardForm.controls['title'].value;
     bill.description = this.billboardForm.controls['description'].value;
-    bill.date = new Date(Date.now());
+    bill.date = JSON.stringify(new Date(Date.now()));
 
     let user = new models.User();
     user.email = this.apiServive.currentUserValue.email;
@@ -68,7 +68,6 @@ export class BillboardComponent implements OnInit {
 
   private setCategoriesToBillboard() {
     if (this.postCategories.length > 0) {
-      console.log("TRUE")
       return true;
     }
     return false;

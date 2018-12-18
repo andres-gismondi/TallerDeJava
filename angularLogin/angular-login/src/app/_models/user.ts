@@ -25,7 +25,7 @@ export class Billboard{
     categories: Category[];
     title: string;
     description: string;
-    date: Date;
+    date: string;
     creator: Creator;
 }
 

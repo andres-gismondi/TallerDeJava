@@ -36,7 +36,7 @@
               <div class="row">
                 <div *ngFor="let cat of postCategories; let i=index">
                   <div class="col-sm-2">
-                    <label for="title" style="display:block !important; cursor: pointer;" (click)="selectMe(cat)">{{cat.name}}
+                    <label for="title" style="display:block !important; cursor: pointer;" (click)="selectMe(cat,i)">{{cat.name}}
                     </label>
                   </div>
                 </div>
