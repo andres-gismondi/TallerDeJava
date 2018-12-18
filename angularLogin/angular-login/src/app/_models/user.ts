@@ -33,3 +33,8 @@ export class BillboardUser{
     billboard: Billboard;
     user: User;
 }
+
+export class CategoriesBillboard{
+    billboard: Billboard;
+    categories: Category[]
+}

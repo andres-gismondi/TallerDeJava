@@ -14,10 +14,15 @@ export class BillboardComponent implements OnInit {
 
   billboardForm: FormGroup;
   billboardUser: models.BillboardUser;
-  private billboards: models.Billboard[] = []
-  filtersLoader: Promise<boolean>;
+  billboards: models.Billboard[] = [];
+  categories: models.Category[] = [];
+  categoriesToPost: models.Category[] = [];
 
-  constructor(private fb: FormBuilder, 
+
+  filtersLoader: Promise<boolean>;
+  filtersLoader2: Promise<boolean>;
+
+  constructor(private fb: FormBuilder,
     private apiServive: ApiService,
     private router: Router) {
     this.billboardForm = this.fb.group({
@@ -32,6 +37,7 @@ export class BillboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getCategories();
   }
 
   onSubmit() {
@@ -47,26 +53,55 @@ export class BillboardComponent implements OnInit {
 
     this.billboardUser.billboard = bill;
     this.billboardUser.user = user;
-    
+
     this.apiServive.postBillboard(this.billboardUser).subscribe(resp => {
       this.router.navigate(['/home'])
     });
+    if (this.setCategoriesToBillboard()) {
+      let newCategories: models.Category[] = this.categoriesToPost;
+      let billWithCategories: models.CategoriesBillboard = new models.CategoriesBillboard();
+      billWithCategories.billboard = bill;
+      billWithCategories.categories = newCategories;
+      this.apiServive.setCategoriesToBillboard(billWithCategories).subscribe(resp => { this.router.navigate(['/home']) })
+    }
   }
 
-  getBillboards(): void{
-    this.apiServive.getBillboards().subscribe((result:Array<models.Billboard>) => {
+  private setCategoriesToBillboard() {
+    if (this.postCategories.length > 0) {
+      console.log("TRUE")
+      return true;
+    }
+    return false;
+  }
+
+  getBillboards(): void {
+    this.apiServive.getBillboards().subscribe((result: Array<models.Billboard>) => {
       this.billboards = result;
       this.filtersLoader = Promise.resolve(true);
     })
   }
 
-  get allCategories(){
-    console.log(this.billboards)
-    return this.billboards;
+  getCategories() {
+    this.apiServive.getCategories().subscribe((result: Array<models.Category>) => {
+      this.categories = result;
+      this.filtersLoader2 = Promise.resolve(true);
+    })
   }
 
-  get atHome(){
+  get allCategories() {
+    return this.categories;
+  }
+
+  get atHome() {
     return this.apiServive.areUAtHome;
+  }
+
+  selectMe(com: models.Category) {
+    this.categoriesToPost.push(com)
+  }
+
+  get postCategories() {
+    return this.categoriesToPost;
   }
 
 }

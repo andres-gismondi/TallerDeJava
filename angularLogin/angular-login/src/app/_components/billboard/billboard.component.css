@@ -26,3 +26,7 @@
     border: none;
     cursor: pointer;
 }
+
+.title{
+    border-bottom: 1px solid black;
+}

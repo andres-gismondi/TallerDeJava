@@ -43,6 +43,12 @@ export class ApiService {
     return this.http.post<any>('http://localhost:8080/grupo23_war_exploded/user-controller/create-billboard',billJson,this.getHeader());
   }
 
+  setCategoriesToBillboard(cateBill: models.CategoriesBillboard){
+    let catBillJson = JSON.stringify(cateBill);
+    console.log(catBillJson)
+    return this.http.post<any>('http://localhost:8080/grupo23_war_exploded/billboard-controller/set-categories',catBillJson, this.getHeader())
+  }
+
   getHeader(){
     let token = this.currentUserSubject.value.token;
     this.headers = new HttpHeaders({
@@ -54,6 +60,10 @@ export class ApiService {
 
   getBillboards(){
     return this.http.get<models.Billboard[]>('http://localhost:8080/grupo23_war_exploded/billboard-controller/get-billboards',this.getHeader())
+  }
+
+  getCategories(){
+    return this.http.get<models.Category[]>('http://localhost:8080/grupo23_war_exploded/category-controller/get-categories',this.getHeader())
   }
 
   get currentUserValue(): models.User{
