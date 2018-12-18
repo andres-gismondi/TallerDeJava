@@ -11,14 +11,14 @@ import * as models from 'src/app/_models/user';
 export class ApiService {
 
   public areUAtHome: boolean;
-  private user: models.IUser = new models.IUser();
+  private user: models.User = new models.User();
   private headers: HttpHeaders = new HttpHeaders();
   private body: HttpParams;
-  private currentUserSubject: BehaviorSubject<models.IUser>;
-  public currentUser: Observable<models.IUser>;
+  private currentUserSubject: BehaviorSubject<models.User>;
+  public currentUser: Observable<models.User>;
 
   constructor(private http: HttpClient, ) {
-    this.currentUserSubject = new BehaviorSubject<models.IUser>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<models.User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
     this.areUAtHome = false;
   }
@@ -28,7 +28,7 @@ export class ApiService {
     return this.http.post('http://localhost:8080/grupo23_war_exploded/user-controller/login', this.body, { observe: 'response' })
       .pipe(map(head => {
         if (head.headers.get('Authorization')) {
-          this.user.userName = userName;
+          this.user.email = userName;
           this.user.token = head.headers.get('Authorization');
           this.user.id = Number(head.headers.get('Authorization').split('-')[0]);
           localStorage.setItem('currentUser', JSON.stringify(this.user));
@@ -36,6 +36,11 @@ export class ApiService {
         }
         return this.user;
       }));
+  }
+
+  postBillboard(bill:models.BillboardUser){
+    let billJson = JSON.stringify(bill);
+    return this.http.post<any>('http://localhost:8080/grupo23_war_exploded/user-controller/create-billboard',billJson,this.getHeader());
   }
 
   getHeader(){
@@ -51,7 +56,8 @@ export class ApiService {
     return this.http.get<models.Billboard[]>('http://localhost:8080/grupo23_war_exploded/billboard-controller/get-billboards',this.getHeader())
   }
 
-  get currentUserValue(): models.IUser{
+  get currentUserValue(): models.User{
+    console.log(this.currentUserSubject.value)
     return this.currentUserSubject.value;
   }
 

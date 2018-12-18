@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IUser } from './_models/user';
+import { User } from './_models/user';
 import { ApiService } from './_services/api.service';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'angular-login';
 
-  private currentUser: IUser;
+  private currentUser: User;
 
   constructor(private apiService: ApiService,
     private router: Router) {

@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 //Service
 import { ApiService } from 'src/app/_services/api.service';
-import { IUser } from 'src/app/_models/user';
+import { User } from 'src/app/_models/user';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as models from 'src/app/_models/user';
@@ -19,7 +19,7 @@ export class LoginFormComponent implements OnInit {
 
   private loginForm: FormGroup;
   
-  private user: models.IUser = new models.IUser();
+  private user: models.User = new models.User();
   private returnUrl: string;
 
   constructor(

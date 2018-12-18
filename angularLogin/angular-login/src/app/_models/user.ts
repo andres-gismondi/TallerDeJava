@@ -1,6 +1,6 @@
-export class IUser{
+export class User{
     id: number;
-    userName: string;
+    email: string;
     token: string;
 }
 
@@ -31,5 +31,5 @@ export class Billboard{
 
 export class BillboardUser{
     billboard: Billboard;
-    user: IUser;
+    user: User;
 }
