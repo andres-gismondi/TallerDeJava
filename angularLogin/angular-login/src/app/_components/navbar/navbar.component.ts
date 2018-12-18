@@ -14,11 +14,16 @@ export class NavbarComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+    
   }
 
   logout(){
     this.apiServive.logoutService();
     this.router.navigate(['/login']);
+  }
+
+  get atHome(){
+    return this.apiServive.areUAtHome;
   }
 
 }

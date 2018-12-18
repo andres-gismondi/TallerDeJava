@@ -10,8 +10,9 @@ import * as models from 'src/app/_models/user';
 })
 export class ApiService {
 
+  public areUAtHome: boolean;
   private user: models.IUser = new models.IUser();
-  //private headers: HttpHeaders = new HttpHeaders();
+  private headers: HttpHeaders = new HttpHeaders();
   private body: HttpParams;
   private currentUserSubject: BehaviorSubject<models.IUser>;
   public currentUser: Observable<models.IUser>;
@@ -19,6 +20,7 @@ export class ApiService {
   constructor(private http: HttpClient, ) {
     this.currentUserSubject = new BehaviorSubject<models.IUser>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+    this.areUAtHome = false;
   }
 
   loginService(userName: string, password: string):Observable<any>{
@@ -36,13 +38,17 @@ export class ApiService {
       }));
   }
 
+  getHeader(){
+    let token = this.currentUserSubject.value.token;
+    this.headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token });
+    let options = { headers: this.headers };
+    return options;
+  }
+
   getBillboards(){
-    let headers: HttpHeaders = new HttpHeaders();
-    
-    headers.set('Content-Type','application/json').set('Authorization',/*JSON.stringify(this.user.id)*/'1-12345')
-    return this.http.get<models.Billboard[]>('http://localhost:8080/grupo23_war_exploded/billboard-controller/get-billboards',{
-      headers: { 'Authorization': '1-12345' }
-    })
+    return this.http.get<models.Billboard[]>('http://localhost:8080/grupo23_war_exploded/billboard-controller/get-billboards',this.getHeader())
   }
 
   get currentUserValue(): models.IUser{

@@ -28,3 +28,8 @@ export class Billboard{
     date: Date;
     creator: Creator;
 }
+
+export class BillboardUser{
+    billboard: Billboard;
+    user: IUser;
+}

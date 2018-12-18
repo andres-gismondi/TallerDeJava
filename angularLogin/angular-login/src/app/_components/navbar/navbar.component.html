@@ -7,11 +7,17 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav animate side-nav">
-      
-      <li class="nav-item">
-        <a class="nav-link" href="#">Crear Cartelera</a>
-        
-      </li>
+
+      <div *ngIf="atHome==true">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['billboard']">Crear Cartelera</a>
+        </li>
+      </div>
+      <div *ngIf="atHome==false">
+          <li class="nav-item">
+              <a class="nav-link" [routerLink]="['']">Home</a>
+            </li>
+      </div>
       <li class="nav-item">
         <a class="nav-link" (click)="logout()" style="cursor:pointer">Salir</a>
       </li>
