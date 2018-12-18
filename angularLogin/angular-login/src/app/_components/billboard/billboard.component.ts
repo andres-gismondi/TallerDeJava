@@ -14,6 +14,9 @@ export class BillboardComponent implements OnInit {
 
   billboardForm: FormGroup;
   billboardUser: models.BillboardUser;
+  private billboards: models.Billboard[] = []
+  filtersLoader: Promise<boolean>;
+
   constructor(private fb: FormBuilder, 
     private apiServive: ApiService,
     private router: Router) {
@@ -32,7 +35,6 @@ export class BillboardComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log( this.apiServive.currentUserValue.email)
     this.billboardUser = new models.BillboardUser();
 
     let bill = new models.Billboard();
@@ -45,10 +47,22 @@ export class BillboardComponent implements OnInit {
 
     this.billboardUser.billboard = bill;
     this.billboardUser.user = user;
-
-    console.log(this.billboardUser)
     
-    this.apiServive.postBillboard(this.billboardUser).subscribe(resp => console.log(resp));
+    this.apiServive.postBillboard(this.billboardUser).subscribe(resp => {
+      this.router.navigate(['/home'])
+    });
+  }
+
+  getBillboards(): void{
+    this.apiServive.getBillboards().subscribe((result:Array<models.Billboard>) => {
+      this.billboards = result;
+      this.filtersLoader = Promise.resolve(true);
+    })
+  }
+
+  get allCategories(){
+    console.log(this.billboards)
+    return this.billboards;
   }
 
   get atHome(){
