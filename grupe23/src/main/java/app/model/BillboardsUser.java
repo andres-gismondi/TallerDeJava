@@ -1,5 +1,8 @@
 package app.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +12,7 @@ public class BillboardsUser {
     private List<Category> categories;
     private String title;
     private String description;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
 
     public BillboardsUser(long id, List<Category> categories, String title, String description, Date date) {

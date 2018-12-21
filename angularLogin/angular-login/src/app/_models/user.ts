@@ -2,6 +2,13 @@ export class User{
     id: number;
     email: string;
     token: string;
+    type:string;
+}
+
+export class UserComplete{
+    id:number;
+    email:string;
+    type:string;
 }
 
 export class Creator{

@@ -20,6 +20,7 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
         User userd = this.listar().stream().filter(b -> b.getId()==id).findFirst().orElse(null);
         if(userd!=null){
             Hibernate.initialize(userd.getCategories());
+            Hibernate.initialize(userd.getBillboards());
         }
 
         return userd;
@@ -31,6 +32,7 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
 
         for (User u:usuarios) {
             Hibernate.initialize(u.getCategories());
+            Hibernate.initialize(u.getBillboards());
         }
         return usuarios;
     }
@@ -44,6 +46,7 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
         User userd = this.listar().stream().filter(b -> b.getEmail().equals(email)).findFirst().orElse(null);
         if(userd!=null){
             Hibernate.initialize(userd.getCategories());
+            Hibernate.initialize(userd.getBillboards());
         }
 
         return userd;
@@ -54,6 +57,7 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
         User userd = this.listar().stream().filter(b -> b.getEmail().equals(email)).findFirst().orElse(null);
         if(userd!=null){
             Hibernate.initialize(userd.getCategories());
+            Hibernate.initialize(userd.getBillboards());
         }
 
         return userd.getId();
@@ -63,6 +67,16 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
         User userCategory = this.getUserByEmail(email);
         if(userCategory!=null){
             if(userCategory.getCategories().stream().filter(c -> c.getName().equals(name)).findFirst().orElse(null)!=null){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Boolean userHasBillboard(String email, String title){
+        User userBillboard = this.getUserByEmail(email);
+        if(userBillboard!=null){
+            if(userBillboard.getBillboards().stream().filter(b -> b.getTitle().equals(title)).findFirst().orElse(null)!=null){
                 return true;
             }
         }

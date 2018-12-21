@@ -10,6 +10,7 @@ import app.service.BillboardService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value="/billboard-controller")
 public class BillboardController {
 

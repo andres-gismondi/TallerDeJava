@@ -19,12 +19,7 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
     public Billboard getBillboard(long id){
         Billboard bill = this.listar().stream().filter(b -> b.getId()==id).findFirst().orElse(null);
         if(bill!=null){
-            Hibernate.initialize(bill.getCategories());
-            Hibernate.initialize(bill.getPublications());
-            Hibernate.initialize(bill.getCreator().getCategories());
-            for (Publication pub:bill.getPublications()) {
-                Hibernate.initialize(pub.getCommentaries());
-            }
+            this.initializeElementsFromBillboard(bill);
         }
 
         return bill;
@@ -35,7 +30,7 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
     public long getIdFromBillboard(String title){
         Billboard billboard = this.listar().stream().filter(b -> b.getTitle().equals(title)).findFirst().orElse(null);
         if(billboard!=null){
-            Hibernate.initialize(billboard.getCategories());
+            this.initializeElementsFromBillboard(billboard);
         }
 
         return billboard.getId();
@@ -45,7 +40,7 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
     public Billboard getBillboardByTitle(String title){
         Billboard bill = this.listar().stream().filter(b -> b.getTitle().equals(title)).findFirst().orElse(null);
         if(bill!=null){
-            Hibernate.initialize(bill.getCategories());
+            this.initializeElementsFromBillboard(bill);
         }
 
         return bill;
@@ -76,13 +71,19 @@ public class BillboardDAOHibernateJPA extends GenericDAOHibernateJPA<Billboard> 
     public List<Billboard> getBillboards(){
         List<Billboard> billboards = this.listar();
         for (Billboard bill:billboards) {
-            Hibernate.initialize(bill.getCategories());
-            Hibernate.initialize(bill.getPublications());
-            Hibernate.initialize(bill.getCreator().getCategories());
-            for (Publication pub:bill.getPublications()) {
-                Hibernate.initialize(pub.getCommentaries());
-            }
+            this.initializeElementsFromBillboard(bill);
         }
         return billboards;
+    }
+
+
+    private Billboard initializeElementsFromBillboard(Billboard bill){
+        Hibernate.initialize(bill.getCategories());
+        Hibernate.initialize(bill.getPublications());
+        Hibernate.initialize(bill.getCreator().getCategories());
+        for (Publication pub:bill.getPublications()) {
+            Hibernate.initialize(pub.getCommentaries());
+        }
+        return bill;
     }
 }

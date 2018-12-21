@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import app.service.PublicationService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value="/publication-controller")
 public class PublicationController {
 

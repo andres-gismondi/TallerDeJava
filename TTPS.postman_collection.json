@@ -218,7 +218,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/login?user-name=walter@walter.com&user-password=walter1234",
+					"raw": "http://localhost:8080/grupo23_war_exploded/user-controller/login?userName=walter@walter.com&password=walter1234",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -231,11 +231,11 @@
 					],
 					"query": [
 						{
-							"key": "user-name",
+							"key": "userName",
 							"value": "walter@walter.com"
 						},
 						{
-							"key": "user-password",
+							"key": "password",
 							"value": "walter1234"
 						}
 					]
@@ -573,6 +573,21 @@
 							"disabled": true
 						}
 					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
 				}
 			},
 			"response": []

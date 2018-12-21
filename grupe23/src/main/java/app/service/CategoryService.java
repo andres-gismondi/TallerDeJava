@@ -6,6 +6,8 @@ import app.model.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
 
@@ -27,6 +29,15 @@ public class CategoryService {
             return UtilsImplementation.PERMISSON_DENIED;
         }
         return UtilsImplementation.ACCESS_DENIED;
+    }
+
+    public List<Category> getCategories(String token){
+        if (token.equals(userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getId() + "-" + UtilsImplementation.TOKEN)) {
+            if (userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getType().equals(UtilsImplementation.ADMIN)) {
+                return categoryDAO.getCategories();
+            }
+        }
+        return null;
     }
 
 }

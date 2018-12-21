@@ -1,6 +1,7 @@
 package app.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.BatchSize;
@@ -16,24 +17,21 @@ import java.util.List;
 public class Billboard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "BILLBOARD_ID")
     private long id;
-    //@JsonIgnore
+
     //@JsonManagedReference
     @BatchSize(size = 1000)
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "billboard",
             orphanRemoval = true)
-    /*@JoinTable(name="BILLBOARD_HAS_PUBLICATION",
-            joinColumns=@JoinColumn(name="billboard_id", referencedColumnName="ID"),
-            inverseJoinColumns=@JoinColumn(name="publication_id", referencedColumnName="PUBLICATION_ID"))*/
 
     private List<Publication> publications = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "BILLBOARD_HAS_CATEGORY",
-            joinColumns = @JoinColumn(name = "billboard_id", referencedColumnName = "ID"),
+            joinColumns = @JoinColumn(name = "billboard_id", referencedColumnName = "BILLBOARD_ID"),
             inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "CATEGORY_ID"))
 
     private List<Category> categories = new ArrayList<>();
@@ -42,9 +40,11 @@ public class Billboard {
     @Column(name = "DESCRIPTION")
     private String description;
     @Column(name = "DATE")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
     @ManyToOne
     private User creator;
+
 
     public User getCreator() {
         return creator;
@@ -54,13 +54,6 @@ public class Billboard {
         this.creator = creator;
     }
 
-    public void removePublication(Publication publication) {
-        this.getPublications().remove(publication);
-    }
-
-    public void removeCategories(Category category) {
-        this.getCategories().remove(category);
-    }
 
     public long getId() {
         return id;

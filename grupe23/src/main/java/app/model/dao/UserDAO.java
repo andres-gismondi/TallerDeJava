@@ -18,4 +18,6 @@ public interface UserDAO extends GenericDAO<User>{
     public User getUserByEmail(String email);
 
     public long getIdFromUser(String email);
+
+    public Boolean userHasBillboard(String email, String title);
 }

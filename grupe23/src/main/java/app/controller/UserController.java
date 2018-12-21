@@ -75,9 +75,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/get-billboards", method = RequestMethod.GET)
-    public ResponseEntity<List<BillboardsUser>> getBillboards(@RequestParam("userName") String userName, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<Billboard>> getBillboards(@RequestParam("userName") String userName, @RequestHeader("Authorization") String token) {
 
-        List<BillboardsUser> billboards = userService.getBillboards(userName, token);
+        List<Billboard> billboards = userService.getBillboards(userName, token);
         if (billboards != null) {
             return new ResponseEntity<>(billboards, HttpStatus.OK);
         }
@@ -87,6 +87,12 @@ public class UserController {
     @RequestMapping(value = "/create-billboard", method = RequestMethod.POST)
     public ResponseEntity<String> createBillboard(@RequestBody UserBillboards userBillboards, @RequestHeader("Authorization") String token) {
         String body = userService.createBillboard(userBillboards.getBillboard(), userBillboards.getUser(), token);
+        return UtilsController.getResponseByString(body);
+    }
+
+    @RequestMapping(value = "/like-billboard", method = RequestMethod.POST)
+    public ResponseEntity<String> userLikesBillboard(@RequestParam("billboardName") String title, @RequestParam("userName") String userName, @RequestHeader("Authorization") String token){
+        String body = userService.userLikesBillboard(title,userName,token);
         return UtilsController.getResponseByString(body);
     }
 

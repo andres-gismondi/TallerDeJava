@@ -16,4 +16,5 @@ public interface BillboardDAO extends GenericDAO<Billboard>{
     public Boolean billboardHasPublication(String title, String name);
 
     public List<Billboard> getBillboards();
+
 }

@@ -46,14 +46,14 @@ export class BillboardComponent implements OnInit {
     let bill = new models.Billboard();
     bill.title = this.billboardForm.controls['title'].value;
     bill.description = this.billboardForm.controls['description'].value;
-    //bill.date = JSON.stringify(new Date());
-
+    bill.date = new Date().toISOString().slice(0,10)
+    console.log(bill.date)
     let user = new models.User();
     user.email = this.apiServive.currentUserValue.email;
 
     this.billboardUser.billboard = bill;
     this.billboardUser.user = user;
-    console.log(this.billboardUser)
+    
     await this.apiServive.postBillboard(this.billboardUser).subscribe(resp => {
       this.router.navigate(['/home']);
 

@@ -75,7 +75,20 @@ public class UserService {
         }
         return UtilsImplementation.ACCESS_DENIED;
 
+    }
 
+    public String userLikesBillboard(String title, String userName, String token) {
+        long id = userDAO.getIdFromUser(userName);
+        if (token.equals(id + "-" + UtilsImplementation.TOKEN)) {
+            User newUser = userDAO.getUser(userDAO.getIdFromUser(userName));
+            if (!userDAO.userHasBillboard(newUser.getEmail(), title)) {
+                Billboard billboardToAdd = billboardDAO.getBillboardByTitle(title);
+                newUser.addBillboard(billboardToAdd);
+            }
+            userDAO.actualizar(newUser);
+            return UtilsImplementation.SUCCESS;
+        }
+        return UtilsImplementation.ACCESS_DENIED;
     }
 
     public HttpHeaders loginUser(String userName, String password, HttpHeaders response) {
@@ -112,16 +125,21 @@ public class UserService {
         return false;
     }
 
-    public List<BillboardsUser> getBillboards(String userName, String token) {
+    public List<Billboard> getBillboards(String userName, String token) {
         if (token.equals(userDAO.getUserByEmail(userName).getId() + "-" + UtilsImplementation.TOKEN)) {
-            List<Billboard> billboards = billboardDAO.getBillboards();
+            User user = userDAO.getUserByEmail(userName);
+            //List<Billboard> billboards = billboardDAO.getBillboards();
             List<Billboard> returnBillboards = new ArrayList<>();
-            for (Billboard bill : billboards) {
+            /*for (Billboard bill : billboards) {
                 if (bill.getCreator().getEmail().equals(userName)) {
                     returnBillboards.add(bill);
                 }
             }
-            return this.setNewBillboards(returnBillboards);
+            return this.setNewBillboards(returnBillboards);*/
+            for (Billboard bill:user.getBillboards()) {
+                returnBillboards.add(billboardDAO.getBillboard(bill.getId()));
+            }
+            return returnBillboards;
         }
         return null;
     }
