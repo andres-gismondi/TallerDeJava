@@ -16,4 +16,5 @@ public class UtilsImplementation {
         return Long.parseLong(parts(word)[0]);
     }
 
+
 }

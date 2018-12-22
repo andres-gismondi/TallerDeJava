@@ -75,9 +75,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/get-billboards", method = RequestMethod.GET)
-    public ResponseEntity<List<Billboard>> getBillboards(@RequestParam("userName") String userName, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<Billboard>> getBillboards(@RequestHeader("Authorization") String token) {
 
-        List<Billboard> billboards = userService.getBillboards(userName, token);
+        List<Billboard> billboards = userService.getBillboards(token);
         if (billboards != null) {
             return new ResponseEntity<>(billboards, HttpStatus.OK);
         }

@@ -125,17 +125,10 @@ public class UserService {
         return false;
     }
 
-    public List<Billboard> getBillboards(String userName, String token) {
-        if (token.equals(userDAO.getUserByEmail(userName).getId() + "-" + UtilsImplementation.TOKEN)) {
-            User user = userDAO.getUserByEmail(userName);
-            //List<Billboard> billboards = billboardDAO.getBillboards();
+    public List<Billboard> getBillboards(String token) {
+        if (token.equals(userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getId() + "-" + UtilsImplementation.TOKEN)) {
+            User user = userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token));
             List<Billboard> returnBillboards = new ArrayList<>();
-            /*for (Billboard bill : billboards) {
-                if (bill.getCreator().getEmail().equals(userName)) {
-                    returnBillboards.add(bill);
-                }
-            }
-            return this.setNewBillboards(returnBillboards);*/
             for (Billboard bill:user.getBillboards()) {
                 returnBillboards.add(billboardDAO.getBillboard(bill.getId()));
             }
