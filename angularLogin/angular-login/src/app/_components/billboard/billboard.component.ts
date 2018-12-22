@@ -2,8 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ApiService } from "src/app/_services/api.service";
 import { Router } from "@angular/router";
+import { map, switchMap, debounceTime, distinctUntilChanged, filter } from "rxjs/operators";
 
 import * as models from "src/app/_models/user";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-billboard",
@@ -19,6 +21,7 @@ export class BillboardComponent implements OnInit {
 
   filtersLoader: Promise<boolean>;
   filtersLoader2: Promise<boolean>;
+  waitPost: Promise<boolean>;
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +43,7 @@ export class BillboardComponent implements OnInit {
     this.getCategories();
   }
 
-  async onSubmit() {
+  onSubmit() {
     this.billboardUser = new models.BillboardUser();
 
     let bill = new models.Billboard();
@@ -54,27 +57,24 @@ export class BillboardComponent implements OnInit {
     this.billboardUser.billboard = bill;
     this.billboardUser.user = user;
 
-    await this.apiServive.postBillboard(this.billboardUser).subscribe(resp => {
-      this.router.navigate(["/home"]);
-    });
-    if (await this.setCategoriesToBillboard()) {
+    this.apiServive.postBillboard(this.billboardUser).subscribe(() => {this.setCategoriesToBillboard(bill)});
+    
+  }
+
+  private setCategoriesToBillboard(bill:models.Billboard) {
+    if (this.postCategories.length > 0) {
       let newCategories: models.Category[] = this.categoriesToPost;
       let billWithCategories: models.CategoriesBillboard = new models.CategoriesBillboard();
       billWithCategories.billboard = bill;
       billWithCategories.categories = newCategories;
-      await this.apiServive
+      console.log("Entro");
+      this.apiServive
         .setCategoriesToBillboard(billWithCategories)
         .subscribe(resp => {
+          
           this.router.navigate(["/home"]);
         });
     }
-  }
-
-  private setCategoriesToBillboard() {
-    if (this.postCategories.length > 0) {
-      return true;
-    }
-    return false;
   }
 
   onCancel() {

@@ -45,3 +45,4 @@ export class CategoriesBillboard{
     billboard: Billboard;
     categories: Category[]
 }
+

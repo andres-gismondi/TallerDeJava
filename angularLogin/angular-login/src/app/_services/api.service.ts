@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable, BehaviorSubject } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 
 import * as models from "src/app/_models/user";
 
@@ -41,9 +41,6 @@ export class ApiService {
           if (head.headers.get("Authorization")) {
             this.user = <models.User>head.body;
             this.user.token = head.headers.get("Authorization");
-            console.log('==============')
-            console.log(this.user)
-            console.log('==============')
             localStorage.setItem("currentUser", JSON.stringify(this.user));
 
             this.currentUserSubject.next(this.user);
@@ -54,15 +51,23 @@ export class ApiService {
   }
 
   postBillboard(bill: models.BillboardUser) {
+    let token = this.currentUserSubject.value.token;
+    this.headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Authorization: token
+    });
+    const options = { headers: this.headers, responseType:'arraybuffer' as 'arraybuffer' };
     let billJson = JSON.stringify(bill);
-    return this.http.post<any>(
+    return this.http.post(
       "http://localhost:8080/grupo23_war_exploded/user-controller/create-billboard",
       billJson,
-      this.getHeader()
-    );
+      options
+    ).pipe(map(resp => {console.log("aca respondio");}));
   }
 
-  setCategoriesToBillboard(cateBill: models.CategoriesBillboard) {
+  setCategoriesToBillboard(
+    cateBill: models.CategoriesBillboard
+  ): Observable<any> {
     let catBillJson = JSON.stringify(cateBill);
     return this.http.post<any>(
       "http://localhost:8080/grupo23_war_exploded/billboard-controller/set-categories",
@@ -77,18 +82,18 @@ export class ApiService {
       "Content-Type": "application/json",
       Authorization: token
     });
-    let options = { headers: this.headers };
+    const options = { headers: this.headers };
     return options;
   }
 
-  getBillboards() {
+  getBillboards(): Observable<any> {
     return this.http.get<models.Billboard[]>(
       "http://localhost:8080/grupo23_war_exploded/user-controller/get-billboards",
       this.getHeader()
     );
   }
 
-  getCategories() {
+  getCategories(): Observable<any> {
     return this.http.get<models.Category[]>(
       "http://localhost:8080/grupo23_war_exploded/category-controller/get-categories",
       this.getHeader()
