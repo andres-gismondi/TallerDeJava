@@ -1,0 +1,56 @@
+<div class="container login-container" style="margin-top:100px; ">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 login-form-1">
+            <h3>Crear Cartelera</h3>
+            <form [formGroup]="billboardForm">
+                <div class="form-group">
+                    <label for="title" style="display:block !important;">Titulo
+            <input type="text" formControlName="title" class="form-control" id="title" required />
+          </label>
+
+                </div>
+                <div class="form-group">
+                    <label for="description" style="display:block !important;">Descripcion
+            <textarea class="form-control" rows="5" id="comment" formControlName="description"></textarea>
+          </label>
+                </div>
+
+                <div class="form-group">
+                    <div *ngIf="filtersLoader2 | async">
+                        <h5 class="title">Categorias</h5>
+                        <div class="row">
+                            <div *ngFor="let cat of allCategories; let i=index">
+                                <div class="col-sm-2">
+                                    <label for="title" style="display:block !important; cursor: pointer;" (click)="selectMe(cat,i)">{{cat.name}}
+                  </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div *ngIf="filtersLoader2 | async">
+                        <h5 class="title">Categorias Agregadas</h5>
+                        <div class="row">
+                            <div *ngFor="let cat of postCategories; let i=index">
+                                <div class="col-sm-2">
+                                    <label for="title" style="display:block !important; cursor: pointer;" (click)="unSelectMe(cat,i)">{{cat.name}}
+                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="button" (click)="onSubmit()" class="btnSubmit" value="Crear" />
+                </div>
+                <div class="form-group">
+                    <input type="button" (click)="onCancel()" class="btnSubmit" value="Cancelar" />
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>

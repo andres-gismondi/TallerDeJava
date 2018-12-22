@@ -1,0 +1,16 @@
+.login-form-1{
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-1:hover{
+    background-color: rgba(143, 147, 161, 0.075);
+    box-shadow: 0 5px 8px 0 rgba(128, 137, 139, 0.2), 0 9px 26px 0 rgba(78, 86, 90, 0.19);
+}
+
+.title{
+    border-bottom: 1px solid black;
+}
+
+.crator{
+
+}
