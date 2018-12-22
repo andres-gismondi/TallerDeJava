@@ -22,6 +22,8 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     this.apiServive.areUAtHome = true;
+    console.log('---------')
+    console.log(this.apiServive.currentUserValue)
   }
 
   ngOnInit() {
