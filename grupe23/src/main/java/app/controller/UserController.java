@@ -11,6 +11,7 @@ import app.service.UserService;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -65,13 +66,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
-        HttpHeaders response = new HttpHeaders();
-        HttpHeaders header = userService.loginUser(userName, password, response);
-        if (!header.get("Authorization").isEmpty()) {
-            return new ResponseEntity<>(null, header, HttpStatus.CREATED);
+    public ResponseEntity<UserLogin> login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
+        HttpHeaders responseHeader = new HttpHeaders();
+
+        UserLogedHeader responseBody = userService.loginUser(userName, password, responseHeader);
+        if (!responseBody.getHeaders().get("Authorization").isEmpty()) {
+            return new ResponseEntity<>(responseBody.getUserLogin(), responseBody.getHeaders(), HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("error", HttpStatus.CONFLICT);
+        return new ResponseEntity<>(responseBody.getUserLogin(), HttpStatus.CONFLICT);
     }
 
     @RequestMapping(value = "/get-billboards", method = RequestMethod.GET)

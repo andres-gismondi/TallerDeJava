@@ -7,7 +7,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -91,16 +93,24 @@ public class UserService {
         return UtilsImplementation.ACCESS_DENIED;
     }
 
-    public HttpHeaders loginUser(String userName, String password, HttpHeaders response) {
+    public UserLogedHeader loginUser(String userName, String password, HttpHeaders response) {
+        UserLogedHeader userLogedHeader = new UserLogedHeader();
+        UserLogin userLogin = new UserLogin();
         User user = userDAO.getUserByEmail(userName);
         if (user != null) {
             if (user.getPassword().equals(password)) {
-
+                userLogin.setEmail(user.getEmail());
+                userLogin.setFirstName(user.getFirstName());
+                userLogin.setLastName(user.getLastName());
+                userLogin.setType(user.getType());
+                userLogin.setId(user.getId());
                 response.set("Authorization", userDAO.getUserByEmail(user.getEmail()).getId() + "-" + UtilsImplementation.TOKEN);
                 response.set("Access-Control-Expose-Headers", "Authorization");
             }
         }
-        return response;
+        userLogedHeader.setHeaders(response);
+        userLogedHeader.setUserLogin(userLogin);
+        return userLogedHeader;
     }
 
     public User getUserById(long id, String token) {
