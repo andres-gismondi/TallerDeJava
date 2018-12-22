@@ -54,7 +54,6 @@ export class LoginFormComponent implements OnInit {
   onSubmit() {
     return this.apiServive.loginService(this.formControl.userName.value, this.formControl.password.value)
       .subscribe(user => {
-        console.log(user);
         this.router.navigate([this.returnUrl])
       },
         error => {

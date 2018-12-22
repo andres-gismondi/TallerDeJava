@@ -39,12 +39,11 @@ export class ApiService {
       .pipe(
         map(head => {
           if (head.headers.get("Authorization")) {
-            this.user.email = userName;
+            this.user = <models.User>head.body;
             this.user.token = head.headers.get("Authorization");
-            this.user.id = Number(
-              head.headers.get("Authorization").split("-")[0]
-            );
-
+            console.log('==============')
+            console.log(this.user)
+            console.log('==============')
             localStorage.setItem("currentUser", JSON.stringify(this.user));
 
             this.currentUserSubject.next(this.user);

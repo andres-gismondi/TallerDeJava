@@ -1,26 +1,26 @@
 <nav class="navbar header-top fixed-top sticky navbar-expand-lg  navbar-dark bg-dark">
-  <span class="navbar-toggler-icon leftmenutrigger"></span>
-  <a class="navbar-brand" href="#"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon leftmenutrigger"></span>
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav animate side-nav">
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav animate side-nav">
 
-      <div *ngIf="atHome==true">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['billboard']">Crear Cartelera</a>
-        </li>
-      </div>
-      <div *ngIf="atHome==false">
-          <li class="nav-item">
-              <a class="nav-link" [routerLink]="['']">Home</a>
+            <div *ngIf="atHome==true && getUserType==true">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['billboard']">Crear Cartelera</a>
+                </li>
+            </div>
+
+            <div *ngIf="atHome==false">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['']">Home</a>
+                </li>
+            </div>
+            <li class="nav-item">
+                <a class="nav-link" (click)="logout()" style="cursor:pointer">Salir</a>
             </li>
-      </div>
-      <li class="nav-item">
-        <a class="nav-link" (click)="logout()" style="cursor:pointer">Salir</a>
-      </li>
-    </ul>
-  </div>
+        </ul>
+    </div>
 </nav>
