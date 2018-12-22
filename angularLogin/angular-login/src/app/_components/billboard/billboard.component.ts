@@ -47,7 +47,7 @@ export class BillboardComponent implements OnInit {
     bill.title = this.billboardForm.controls['title'].value;
     bill.description = this.billboardForm.controls['description'].value;
     bill.date = new Date().toISOString().slice(0,10)
-    console.log(bill.date)
+  
     let user = new models.User();
     user.email = this.apiServive.currentUserValue.email;
 
@@ -97,8 +97,16 @@ export class BillboardComponent implements OnInit {
   }
 
   selectMe(com: models.Category, index: number) {
+    console.log(com)
+    console.log(index)
     this.categoriesToPost.push(com)
     this.categories.splice(index,1)
+  }
+
+  unSelectMe(com: models.Category, index: number){
+    console.log(com)
+    this.categories.push(com);
+    this.categoriesToPost.splice(index,1)
   }
 
   get postCategories() {
