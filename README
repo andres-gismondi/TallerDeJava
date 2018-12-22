@@ -1,7 +1,0 @@
-Util:
-Base de Datos levantada por phpmyadmin. Antes de correr la aplicacion crear una base en phpmyadmin con el nombre "grupo23".
-Postman para los request.
-
-1- Ejecutar el test UserTest. Este crea la base de datos e inserta un usuario admin junto con una categoria.
-2- Importarse la coleccion de Postman y ejecutar los request en el orden en el que vienen.
-
