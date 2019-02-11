@@ -1,0 +1,44 @@
+package app.category.service;
+
+import app.category.repository.CategoryDAO;
+import app.category.model.Category;
+import app.user.repository.UserDAO;
+import app.application.utils.UtilsImplementation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class CategoryService {
+
+    @Autowired
+    CategoryDAO categoryDAO;
+
+    @Autowired
+    UserDAO userDAO;
+
+    public String createCategory(Category category, String token) {
+        if (token.equals(userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getId() + "-" + UtilsImplementation.TOKEN)) {
+            if (userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getType().equals(UtilsImplementation.ADMIN)) {
+                Category cat = new Category();
+                cat.setName(category.getName());
+                cat.setWritePermisson(category.getWritePermisson());
+                categoryDAO.persistir(cat);
+                return UtilsImplementation.SUCCESS;
+            }
+            return UtilsImplementation.PERMISSON_DENIED;
+        }
+        return UtilsImplementation.ACCESS_DENIED;
+    }
+
+    public List<Category> getCategories(String token){
+        if (token.equals(userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getId() + "-" + UtilsImplementation.TOKEN)) {
+            if (userDAO.getUser(UtilsImplementation.getIdFromAuthorizationToken(token)).getType().equals(UtilsImplementation.ADMIN)) {
+                return categoryDAO.getCategories();
+            }
+        }
+        return null;
+    }
+
+}

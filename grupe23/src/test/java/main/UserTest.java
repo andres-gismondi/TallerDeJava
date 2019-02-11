@@ -1,13 +1,12 @@
 package main;
 
-import app.config.AppConfig;
-import app.config.PersistenceConfig;
-import app.config.SpringWebApp;
-import app.model.dao.UserDAO;
-import app.model.Admin;
-import app.model.Category;
-import app.model.User;
-import org.junit.Assert;
+import app.application.config.AppConfig;
+import app.application.config.PersistenceConfig;
+import app.application.config.SpringWebApp;
+import app.user.repository.UserDAO;
+import app.user.model.Admin;
+import app.category.model.Category;
+import app.user.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
